@@ -1,0 +1,19 @@
+<!--/app/login.html-->
+
+{% extends 'base.html' %}
+
+{% block content %}      
+
+<!--Prijava--> 
+<div>
+  <h1>Prijava</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {{ login_form }}
+    <button type="submit">Prijavi me</button>
+  </form>
+  <p>Zaboravili ste lozinku? <a href="/password_reset">Izmjenite lozinku</a>.</p>
+  <p>Nemate račun? <a href="/register">Registrirajte novi račun</a>.</p>
+</div>
+
+{% endblock %}

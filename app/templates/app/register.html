@@ -1,0 +1,18 @@
+<!--/app/register.html-->
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<!--Registracija--> 
+<div>
+	<h1>Registracija</h1>
+	<form method="POST">
+		{% csrf_token %}
+		{{ register_form }}                    
+		<button type="submit">Registriraj me</button>
+	</form>
+	<p> Ako već imate račun, <a href="/login">prijavite</a> se.</p>
+</div>
+
+{% endblock %}
