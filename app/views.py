@@ -11,7 +11,7 @@ from django.db.models.query_utils import Q
 from django.utils.encoding import force_bytes
 from django.contrib import messages
 from django.http import HttpResponse
-from .forms import NewUserForm
+from .forms import *
 
 # Create your views here.
 
