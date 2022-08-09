@@ -32,7 +32,7 @@ def register_request(request):
 
 def login_request(request):
 	if request.method == "POST":
-		form = AuthenticationForm(request, data=request.POST)
+		form = UserLoginForm(request, data=request.POST)
 		if form.is_valid():
 			username = form.cleaned_data.get('username')
 			password = form.cleaned_data.get('password')
@@ -45,7 +45,7 @@ def login_request(request):
 				messages.error(request,"Invalid username or password.")
 		else:
 			messages.error(request,"Invalid username or password.")
-	form = AuthenticationForm()
+	form = UserLoginForm()
 	return render(request=request, template_name="app/login.html", context={"login_form":form})
 
 def logout_request(request):
@@ -56,7 +56,7 @@ def logout_request(request):
 
 def password_reset_request(request):
 	if request.method == "POST":
-		password_reset_form = PasswordResetForm(request.POST)
+		password_reset_form = ResetPasswordForm(request.POST)
 		if password_reset_form.is_valid():
 			data = password_reset_form.cleaned_data['email']
 			associated_users = User.objects.filter(Q(email=data))
@@ -79,5 +79,5 @@ def password_reset_request(request):
 					except BadHeaderError:
 						return HttpResponse('Invalid header found.')
 					return redirect ("/password_reset/done/")
-	password_reset_form = PasswordResetForm()
+	password_reset_form = ResetPasswordForm()
 	return render(request=request, template_name="app/password/password_reset.html", context={"password_reset_form":password_reset_form})

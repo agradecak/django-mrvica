@@ -2,35 +2,74 @@ from importlib.metadata import requires
 from tkinter import Widget
 from urllib import request
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
 from django.contrib.auth.models import User
 from .models import *
 
 # Create your forms here.
 
+
+class UserLoginForm(AuthenticationForm):
+    username = forms.CharField(
+        label="Korisničko ime",
+        required=True,
+        widget=forms.widgets.TextInput(
+            attrs={
+                "placeholder": "ivoivic",
+                "class": "input is-grey-light is-medium",
+            }
+        ),
+    )
+
+    password = forms.CharField(
+        label="Lozinka",
+		required=True,
+		widget=forms.PasswordInput(
+			attrs={
+				"type": "password",
+				"class": "input is-grey-light is-medium",
+				"placeholder": "lozinka",
+			}
+		),
+	)
+
+class ResetPasswordForm(PasswordResetForm):
+	email = forms.EmailField(
+        label="Email",
+		required=True,
+		widget=forms.widgets.TextInput(
+			attrs={
+				"placeholder": "ivoivic@email.com",
+				"class": "input is-grey-light is-medium",
+			}
+		),
+	)
+
 class NewUserForm(UserCreationForm):
 	username = forms.CharField(
+        label="Korisničko ime",
 		required=True,
-		widget=forms.widgets.Textarea(
+		widget=forms.widgets.TextInput(
 			attrs={
 				"placeholder": "ivoivic",
 				"class": "input is-grey-light is-medium",
 			}
 		),
-		label="Korisničko ime",
 	)
 
 	email = forms.EmailField(
+        label="Email",
 		required=True,
-		widget=forms.widgets.Textarea(
+		widget=forms.widgets.TextInput(
 			attrs={
 				"placeholder": "ivoivic@email.com",
 				"class": "input is-grey-light is-medium",
 			}
-		)
+		),
 	)
 
 	password1 = forms.CharField(
+        label="Lozinka",
 		required=True,
 		widget=forms.PasswordInput(
 			attrs={
@@ -39,10 +78,10 @@ class NewUserForm(UserCreationForm):
 				"placeholder": "lozinka",
 			}
 		),
-		label="Lozinka",
 	)
 
 	password2 = forms.CharField(
+        label="Potvrda lozinke",
 		required=True,
 		widget=forms.PasswordInput(
 			attrs={
@@ -51,7 +90,6 @@ class NewUserForm(UserCreationForm):
 				"placeholder": "lozinka",
 			}
 		),
-		label="Potvrda lozinke",
 	)
 
 	class Meta:
@@ -66,15 +104,47 @@ class NewUserForm(UserCreationForm):
 		return user
 
 class ObjavaForm(forms.ModelForm):
-    tijelo = forms.CharField(
+    naslov = forms.CharField(
+        label="Naslov",
         required=True,
         widget=forms.widgets.Textarea(
             attrs={
-                "placeholder": "Šta je tvoje danas, to je sutra moje, lave...",
+                "placeholder": "Brze krafne",
                 "class": "input is-grey-light is-medium",
             }
         ),
-        label="",
+    )
+
+    sastojci = forms.CharField(
+        label="Sastojci",
+        required=True,
+        widget=forms.widgets.Textarea(
+            attrs={
+                "placeholder": "200ml mlijeka\n350g brašna\n...",
+                "class": "input is-grey-light is-medium",
+            }
+        ),
+    )
+
+    upute = forms.CharField(
+        label="Upute",
+        required=True,
+        widget=forms.widgets.Textarea(
+            attrs={
+                "placeholder": "pećnicu upaliti na 180°C\npromiješati suhe sastojke\n...",
+                "class": "input is-grey-light is-medium",
+            }
+        ),
+    )
+
+    napomene = forms.CharField(
+        label="Napomene",
+        widget=forms.widgets.Textarea(
+            attrs={
+                "placeholder": "mlijeko mora biti na sobnoj",
+                "class": "input is-grey-light is-medium",
+            }
+        ),
     )
 
     class Meta:
@@ -84,13 +154,13 @@ class ObjavaForm(forms.ModelForm):
 
 class KomentarForm(forms.ModelForm):
     tijelo = forms.CharField(
+        label="Komentar",
         widget=forms.widgets.Textarea(
             attrs={
                 "placeholder": "Odličan recept!",
                 "class": "input is-grey-light is-medium",
             }
         ),
-        label="",
     )
 
     class Meta:

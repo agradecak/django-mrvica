@@ -46,7 +46,10 @@ class Komentar(models.Model):
         return "{} (objava {}) {}".format(self.stvorio.username, self.tvit.id, self.tijelo)
 
 class Objava(models.Model):
-    tijelo = models.CharField(max_length=255)
+    naslov = models.CharField(max_length=100)
+    sastojci = models.TextField()
+    upute = models.TextField()
+    napomene = models.TextField()
     stvorio = models.ForeignKey(User, related_name='objave', on_delete=models.CASCADE)
     objava_lajkovi = models.ManyToManyField(User, related_name='srce_korisnik', blank=True, through=Srce)
     objava_komentari = models.ManyToManyField(User, related_name='komentar_korisnik', blank=True, through=Komentar)
