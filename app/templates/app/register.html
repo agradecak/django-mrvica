@@ -4,15 +4,66 @@
 
 {% block content %}
 
-<!--Registracija--> 
-<div>
-	<h1>Registracija</h1>
-	<form method="POST">
-		{% csrf_token %}
-		{{ register_form }}                    
-		<button type="submit">Registriraj me</button>
-	</form>
-	<p> Ako već imate račun, <a href="/login">prijavite</a> se.</p>
+<!--Registracija-->
+<div class="container">
+	<div class="columns is-centered">
+		<div class="column is-5-tablet is-4-desktop is-4-widescreen">
+			<form method="POST" class="box">
+				<div class="title has-text-centered">
+					<p >Registracija</p>
+				</div>
+				{% csrf_token %}
+				{{ register_form.non_field_errors }}
+				<div class="field">
+					<label class="label" for="{{ register_form.username.id_for_label }}">Korisničko ime:</label>
+					<div class="control has-icons-left">
+					{{ register_form.username }}
+					<span class="icon is-small is-left">
+						<i class="fas fa-user"></i>
+					</span>
+					</div>
+					{{ register_form.username.errors }}
+				</div>
+				<div class="field">
+					<label class="label" for="{{ register_form.email.id_for_label }}">Email:</label>
+					<div class="control has-icons-left">
+					{{ register_form.email }}
+					<span class="icon is-small is-left">
+						<i class="fas fa-envelope"></i>
+					</span>
+					</div>
+					{{ register_form.username.errors }}
+				</div>
+				<div class="field">
+					<label class="label" for="{{ register_form.password1.id_for_label }}">Lozinka:</label>
+					<div class="control has-icons-left">
+					{{ register_form.password1 }}
+					<span class="icon is-small is-left">
+						<i class="fas fa-key"></i>
+					</span>
+					</div>
+					{{ register_form.password1.errors }}
+				</div>
+				<div class="field">
+					<label class="label" for="{{ register_form.password2.id_for_label }}">Lozinka:</label>
+					<div class="control has-icons-left">
+					{{ register_form.password2 }}
+					<span class="icon is-small is-left">
+						<i class="fas fa-key"></i>
+					</span>
+					</div>
+					{{ register_form.password2.errors }}
+				</div>
+				<div class="field has-text-centered">
+					<div class="control">
+					<button class="button is-light" type="submit">Registriraj me</button>
+					</div>
+				</div>
+				<div class="field has-text-right">
+					<a href="/">Imate račun?</a>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
-
 {% endblock %}

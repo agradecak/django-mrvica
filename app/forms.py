@@ -11,83 +11,76 @@ from .models import *
 
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(
-        label="Korisničko ime",
         required=True,
         widget=forms.widgets.TextInput(
             attrs={
+                "class": "input",
                 "placeholder": "ivoivic",
-                "class": "input is-grey-light is-medium",
             }
         ),
     )
 
     password = forms.CharField(
-        label="Lozinka",
 		required=True,
 		widget=forms.PasswordInput(
 			attrs={
 				"type": "password",
-				"class": "input is-grey-light is-medium",
-				"placeholder": "lozinka",
+				"class": "input",
+                "placeholder": "********",
 			}
 		),
 	)
 
 class ResetPasswordForm(PasswordResetForm):
 	email = forms.EmailField(
-        label="Email",
 		required=True,
 		widget=forms.widgets.TextInput(
 			attrs={
-				"placeholder": "ivoivic@email.com",
-				"class": "input is-grey-light is-medium",
+				"class": "input",
+                "placeholder": "ivoivic@email.com",
 			}
 		),
 	)
 
 class NewUserForm(UserCreationForm):
 	username = forms.CharField(
-        label="Korisničko ime",
 		required=True,
 		widget=forms.widgets.TextInput(
 			attrs={
-				"placeholder": "ivoivic",
-				"class": "input is-grey-light is-medium",
+				"class": "input",
+                "placeholder": "ivoivic",
 			}
 		),
 	)
 
 	email = forms.EmailField(
-        label="Email",
 		required=True,
 		widget=forms.widgets.TextInput(
 			attrs={
+				"class": "input",
 				"placeholder": "ivoivic@email.com",
-				"class": "input is-grey-light is-medium",
 			}
 		),
 	)
 
 	password1 = forms.CharField(
-        label="Lozinka",
 		required=True,
 		widget=forms.PasswordInput(
 			attrs={
 				"type": "password",
-				"class": "input is-grey-light is-medium",
-				"placeholder": "lozinka",
+				"class": "input",
+				"placeholder": "********",
 			}
 		),
 	)
 
 	password2 = forms.CharField(
-        label="Potvrda lozinke",
 		required=True,
 		widget=forms.PasswordInput(
 			attrs={
 				"type": "password",
-				"class": "input is-grey-light is-medium",
-				"placeholder": "lozinka",
+				"class": "input",
+				"placeholder": "********",
 			}
 		),
 	)

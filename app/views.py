@@ -1,3 +1,4 @@
+from urllib.request import HTTPRedirectHandler
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib.auth.forms import AuthenticationForm
@@ -10,13 +11,13 @@ from django.contrib.auth.tokens import default_token_generator
 from django.db.models.query_utils import Q
 from django.utils.encoding import force_bytes
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .forms import *
 
 # Create your views here.
 
-def dashboard(request):
-    return render(request, 'app/dashboard.html')
+def homepage(request):
+    return render(request, 'app/homepage.html')
 
 def register_request(request):
 	if request.method == "POST":
@@ -25,33 +26,36 @@ def register_request(request):
 			user = form.save()
 			login(request, user)
 			messages.success(request, "Registracija uspješna." )
-			return redirect("app:dashboard")
+			return redirect("app:homepage")
 		messages.error(request, "Unsuccessful registration. Invalid information.")
 	form = NewUserForm()
 	return render (request=request, template_name="app/register.html", context={"register_form":form})
 
 def login_request(request):
-	if request.method == "POST":
-		form = UserLoginForm(request, data=request.POST)
-		if form.is_valid():
-			username = form.cleaned_data.get('username')
-			password = form.cleaned_data.get('password')
-			user = authenticate(username=username, password=password)
-			if user is not None:
-				login(request, user)
-				messages.info(request, f"You are now logged in as {username}.")
-				return redirect("app:dashboard")
+	if not request.user.is_authenticated:
+		if request.method == "POST":
+			form = UserLoginForm(request, data=request.POST)
+			if form.is_valid():
+				username = form.cleaned_data.get('username')
+				password = form.cleaned_data.get('password')
+				user = authenticate(username=username, password=password)
+				if user is not None:
+					login(request, user)
+					messages.info(request, f"You are now logged in as {username}.")
+					return redirect("app:homepage")
+				else:
+					messages.error(request,"Invalid username or password.")
 			else:
 				messages.error(request,"Invalid username or password.")
-		else:
-			messages.error(request,"Invalid username or password.")
-	form = UserLoginForm()
-	return render(request=request, template_name="app/login.html", context={"login_form":form})
+		form = UserLoginForm()
+		return render(request=request, template_name="app/login.html", context={"login_form":form})
+	else:
+		return redirect("app:homepage")
 
 def logout_request(request):
 	logout(request)
 	messages.info(request, "You have successfully logged out.") 
-	return redirect("app:dashboard")
+	return redirect("app:login")
 
 
 def password_reset_request(request):
