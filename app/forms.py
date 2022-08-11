@@ -1,6 +1,6 @@
-from importlib.metadata import requires
-from tkinter import Widget
-from urllib import request
+# from importlib.metadata import requires
+# from tkinter import Widget
+# from urllib import request
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
 from django.contrib.auth.models import User
