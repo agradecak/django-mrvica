@@ -51,7 +51,7 @@ class Objava(models.Model):
     upute = models.TextField()
     napomene = models.TextField()
     stvorio = models.ForeignKey(User, related_name='objave', on_delete=models.CASCADE)
-    objava_lajkovi = models.ManyToManyField(User, related_name='srce_korisnik', blank=True, through=Srce)
+    objava_srca = models.ManyToManyField(User, related_name='srce_korisnik', blank=True, through=Srce)
     objava_komentari = models.ManyToManyField(User, related_name='komentar_korisnik', blank=True, through=Komentar)
     vrijeme_stvaranja = models.DateTimeField(auto_now_add=True)
 
@@ -62,11 +62,18 @@ class Objava(models.Model):
     def __str__(self):
             return "{} ({}): {}".format(self.stvorio.username, self.vrijeme_stvaranja, self.tijelo[:30])
 
+class Slika(models.Model):
+    objava = models.ForeignKey(Objava, on_delete=models.CASCADE)
+    slika = models.ImageField(null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Slike" 
+
 
 @receiver(post_save, sender=User)
 def stvori_profil(sender, instance, created, **kwargs):
-    if created:
+    if created and not instance.is_superuser:
         user_profil = Profil(korisnik=instance)
         user_profil.save()
-        user_profil.prati.add(instance.profil)
-        user_profil.save()
+        # user_profil.prati.add(instance.profil)
+        # user_profil.save()

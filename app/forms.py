@@ -1,5 +1,5 @@
 # from importlib.metadata import requires
-# from tkinter import Widget
+# from tkinter import Widget, Image
 # from urllib import request
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
@@ -195,3 +195,16 @@ class ProfilForm(forms.ModelForm):
     class Meta:
         model = Profil
         exclude = ("korisnik", "prati", )
+
+class SlikaForm(forms.ModelForm):
+    slika = forms.ImageField(
+        widget=forms.ClearableFileInput(
+            attrs={
+                "multiple": True
+            }
+        ),
+    )
+
+    class Meta:
+        model = Slika
+        fields = ("slika",)
