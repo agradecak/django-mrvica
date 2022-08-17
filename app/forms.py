@@ -132,6 +132,7 @@ class ObjavaForm(forms.ModelForm):
 
     napomene = forms.CharField(
         label="Napomene",
+        required=False,
         widget=forms.widgets.Textarea(
             attrs={
                 "placeholder": "mlijeko mora biti na sobnoj",
@@ -142,12 +143,13 @@ class ObjavaForm(forms.ModelForm):
 
     class Meta:
         model = Objava
-        exclude = ("stvorio", "objava_lajkovi", "objava_komentari", )
+        exclude = ("stvorio", "objava_srca", "objava_komentari", )
 
 
 class KomentarForm(forms.ModelForm):
     tijelo = forms.CharField(
         label="Komentar",
+        required=True,
         widget=forms.widgets.Textarea(
             attrs={
                 "placeholder": "Odličan recept!",
@@ -163,6 +165,7 @@ class KomentarForm(forms.ModelForm):
 
 class ProfilForm(forms.ModelForm):
     ime = forms.CharField(
+        required=True,
         widget=forms.widgets.Textarea(
             attrs={
                 "placeholder": "Ivo Ivić",
@@ -173,6 +176,7 @@ class ProfilForm(forms.ModelForm):
     )
 
     opis = forms.CharField(
+        required=True,
         widget=forms.widgets.Textarea(
             attrs={
                 "placeholder": "Pekar iz Rijeke...",
@@ -183,6 +187,7 @@ class ProfilForm(forms.ModelForm):
     )
 
     lokacija = forms.CharField(
+        required=True,
         widget=forms.widgets.Textarea(
             attrs={
                 "placeholder": "Rijeka",
@@ -200,7 +205,7 @@ class SlikaForm(forms.ModelForm):
     slika = forms.ImageField(
         widget=forms.ClearableFileInput(
             attrs={
-                "multiple": True
+                "multiple": True,
             }
         ),
     )

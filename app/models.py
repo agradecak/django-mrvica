@@ -7,10 +7,9 @@ from django.db.models.signals import post_save
 
 class Profil(models.Model):
     korisnik = models.OneToOneField(User, on_delete=models.CASCADE)
-    ime = models.CharField(max_length=50)
-    #hendl = models.CharField(max_length=50)
-    opis = models.CharField(max_length=255)
-    lokacija = models.CharField(max_length=50)
+    ime = models.CharField(max_length=50, blank=False)
+    opis = models.CharField(max_length=255, blank=False)
+    lokacija = models.CharField(max_length=50, blank=False)
     datum_pridruzivanja = models.DateField(auto_now_add=True)
     prati = models.ManyToManyField('self', related_name='pracen_od', symmetrical=False, blank=True)
 
@@ -34,7 +33,7 @@ class Srce(models.Model):
 
 class Komentar(models.Model):
     objava = models.ForeignKey('Objava', related_name='komentari', on_delete=models.CASCADE)
-    tijelo = models.CharField(max_length=255)
+    tijelo = models.CharField(max_length=255, blank=False)
     stvorio = models.ForeignKey(User, related_name='komentari', on_delete=models.CASCADE)
     vrijeme_komentiranja = models.DateTimeField(auto_now_add=True)
     
@@ -46,10 +45,10 @@ class Komentar(models.Model):
         return "{} (objava {}) {}".format(self.stvorio.username, self.tvit.id, self.tijelo)
 
 class Objava(models.Model):
-    naslov = models.CharField(max_length=100)
-    sastojci = models.TextField()
-    upute = models.TextField()
-    napomene = models.TextField()
+    naslov = models.CharField(max_length=100, blank=False)
+    sastojci = models.TextField(blank=False)
+    upute = models.TextField(blank=False)
+    napomene = models.TextField(blank=True)
     stvorio = models.ForeignKey(User, related_name='objave', on_delete=models.CASCADE)
     objava_srca = models.ManyToManyField(User, related_name='srce_korisnik', blank=True, through=Srce)
     objava_komentari = models.ManyToManyField(User, related_name='komentar_korisnik', blank=True, through=Komentar)
@@ -62,9 +61,15 @@ class Objava(models.Model):
     def __str__(self):
             return "{} ({}): {}".format(self.stvorio.username, self.vrijeme_stvaranja, self.tijelo[:30])
 
+    def sastojci_as_list(self):
+        return self.sastojci.split('\n')
+
+    def upute_as_list(self):
+        return self.upute.split('\n')
+
 class Slika(models.Model):
     objava = models.ForeignKey(Objava, on_delete=models.CASCADE)
-    slika = models.ImageField(null=True, blank=True)
+    slika = models.ImageField()
 
     class Meta:
         verbose_name_plural = "Slike" 
@@ -75,5 +80,3 @@ def stvori_profil(sender, instance, created, **kwargs):
     if created and not instance.is_superuser:
         user_profil = Profil(korisnik=instance)
         user_profil.save()
-        # user_profil.prati.add(instance.profil)
-        # user_profil.save()

@@ -4,28 +4,23 @@
 
 {% block content %}
 <div class="column">
-    <!-- UNOS NOVOG TVITA -->
-    <div class="block mt-3 mx-3">
-        <div class="box my-2 py-1 px-3">
-            <article class="media">
-                <div class="media-content">
-                    <div class="content p-3">
-                        <div class="buttons mt-1 is-justify-content-center">
-                            <a href="{% url 'app:nova_objava' %}" class="button is-info is-medium mt-1">
-                                <span class="icon"> <i class="fa-solid fa-comment"></i> </span>
-                                <span>Objavi novi recept</span>
-                            </a>
-                        </div>
-                    </div>
+    <article class="media">
+        <div class="media-content">
+            <div class="content p-3">
+                <div class="buttons mt-1 is-justify-content-center">
+                    <a href="{% url 'app:nova_objava' %}" class="button is-info is-medium mt-1">
+                        <span class="icon"> <i class="fa-solid fa-comment"></i> </span>
+                        <span>Objavi novi recept</span>
+                    </a>
                 </div>
-            </article>
+            </div>
         </div>
-    </div>
+    </article>
 
     <!-- ISPIS SVIH TVITOVA -->
     <div class="block mx-3">
-        {% for praceni_profil in user.profil.prati.all %}
-            {% for objava in praceni_profil.korisnik.tvitovi.all %}
+        {% for pracen_profil in user.profil.prati.all %}
+            {% for objava in pracen_profil.korisnik.objave.all %}
                 <a href="{% url 'app:objava' objava.id %}">
                     <div class="box my-2 p-3">
                         <article class="media">
@@ -33,17 +28,23 @@
                                 <!-- SADRŽAJ OBJAVE -->
                                 <div class="content">
                                     <p>
-                                        <span class="title is-size-5 has-text-bold"> {{ objava.stvorio.profil.ime }} </span>
                                         <span class="title is-size-5 has-text-bold"> {{ objava.naslov }} </span>
-                                        <span class="subtitle is-size-6 has-text-grey-light"> @{{ objava.stvorio.username }} </span>
                                         <span class="subtitle is-size-6 has-text-grey-light ml-5"> {{ objava.vrijeme_stvaranja|timesince }}</span>
                                     </p>
                                     <p>
-                                        {{ objava.sastojci }}
+                                        <span class="title is-size-5 has-text-bold"> {{ objava.stvorio.profil.ime }} </span>
+                                        <span class="subtitle is-size-6 has-text-grey-light"> @{{ objava.stvorio.username }} </span>
                                     </p>
-                                    <p>
-                                        {{ objava.upute }}
-                                    </p>
+                                    <ul>
+                                        {% for sastojak in objava.sastojci_as_list %}
+                                                <li>{{ sastojak }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    <ol>
+                                        {% for uputa in objava.upute_as_list %}
+                                                <li>{{ uputa }}</li>
+                                        {% endfor %}
+                                    </ol>
                                     <p>
                                         {{ objava.napomene }}
                                     </p>
