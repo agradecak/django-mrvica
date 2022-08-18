@@ -13,6 +13,16 @@
                             <span class="title is-size-5 has-text-bold"> {{ objava.stvorio.profil.ime }} </span>
                             <span class="subtitle is-size-6 has-text-grey-light"> @{{ objava.stvorio.username }} </span>
                             <span class="subtitle is-size-6 has-text-grey-light ml-5"> {{ objava.vrijeme_stvaranja|timesince }} </span>
+                            <div class="buttons is-justify-content-end">
+                                {% if objava.stvorio == user %}
+                                <a href="{% url 'app:brisi_objavu' objava.id %}">
+                                    <button class="button is-info is-small">
+                                        <span class="icon"> <i class="fa-solid fa-comment-slash"></i> </span>
+                                        <span>Izbriši</span>
+                                    </button>
+                                </a>
+                                {% endif %}
+                                </div>
                         </p>
                         <p>
                             {{ objava.sastojci }}
@@ -99,16 +109,16 @@
 
                                     </div>
                                     <div class="column">
-                                        <form method="post">
-                                            {% csrf_token %}
-                                                <div class="buttons is-justify-content-end">
-                                                {% if komentar.stvorio == user %}
-                                                    <button class="button is-info is-small">
-                                                        <span class="icon"> <i class="fa-solid fa-comment-slash"></i> </span>
-                                                        <span>Izbriši</span>
-                                                    </button>
-                                                {% endif %}
-                                                </div>
+                                        <div class="buttons is-justify-content-end">
+                                        {% if komentar.stvorio == user %}
+                                        <a href="{% url 'app:brisi_komentar' objava.id komentar.id %}">
+                                            <button class="button is-info is-small">
+                                                <span class="icon"> <i class="fa-solid fa-comment-slash"></i> </span>
+                                                <span>Izbriši</span>
+                                            </button>
+                                        </a>
+                                        {% endif %}
+                                        </div>
                                         </form>
                                     </div>
                                 </div>

@@ -1,5 +1,6 @@
+from gc import get_objects
 from urllib.request import HTTPRedirectHandler
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.core.mail import send_mail, BadHeaderError
 # from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib.auth.models import User
@@ -12,6 +13,7 @@ from django.db.models.query_utils import Q
 from django.utils.encoding import force_bytes
 from django.contrib import messages
 from django.http import HttpResponse #, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from .forms import *
 from .models import *
 
@@ -74,6 +76,22 @@ def objava(request, pk):
 	else:
 		komentar_form = KomentarForm()
 	return render(request, "app/objava.html", {"objava": objava, "komentar_form": komentar_form,})
+
+@login_required
+def brisi_objavu(request, objava_id):
+	profil = request.user.profil
+	objava = get_object_or_404(Objava, pk=objava_id)
+	objava.delete()
+
+	return redirect('app:profil', profil.id)
+
+@login_required
+def brisi_komentar(request, objava_id, komentar_id):
+	komentar = get_object_or_404(Komentar, pk=komentar_id)
+	komentar.delete()
+
+	return redirect('app:objava', objava_id)
+	
 
 @login_required
 def profil(request, pk):
