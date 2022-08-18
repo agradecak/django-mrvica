@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from PIL import Image as Img
+import io
+from django.core.files.uploadhandler import InMemoryUploadedFile
 
 # Create your models here.
 
@@ -10,6 +13,7 @@ class Profil(models.Model):
     ime = models.CharField(max_length=50, blank=False)
     opis = models.CharField(max_length=255, blank=False)
     lokacija = models.CharField(max_length=50, blank=False)
+    avatar = models.ImageField(default='profile.png', null=True, blank=True)
     datum_pridruzivanja = models.DateField(auto_now_add=True)
     prati = models.ManyToManyField('self', related_name='pracen_od', symmetrical=False, blank=True)
 
@@ -68,11 +72,23 @@ class Objava(models.Model):
         return self.upute.split('\n')
 
 class Slika(models.Model):
-    objava = models.ForeignKey(Objava, on_delete=models.CASCADE)
+    objava = models.ForeignKey(Objava, related_name='objava_slike', on_delete=models.CASCADE)
     slika = models.ImageField()
 
     class Meta:
-        verbose_name_plural = "Slike" 
+        verbose_name_plural = "Slike"
+
+    def save(self,*args, **kwargs):
+        if self.slika:
+            img = Img.open(io.BytesIO(self.slika.read()))
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+            img.thumbnail((100,100), Img.ANTIALIAS)
+            output = io.BytesIO()
+            img.save(output, format='JPEG')
+            output.seek(0)
+            self.slika = InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.slika.name.split('.')[0], 'image/jpeg',"Content-Type: charset=utf-8", None)
+        super(Slika, self).save(*args, **kwargs)
 
 
 @receiver(post_save, sender=User)

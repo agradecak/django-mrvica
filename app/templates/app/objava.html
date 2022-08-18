@@ -23,6 +23,11 @@
                         <p>
                             {{ objava.napomene }}
                         </p>
+                        {% for objava_slika in objava.objava_slike.all %}
+                            {% if objava_slika.slika %}
+                              <a href="#" class="image"><img src="{{ objava_slika.slika.url }}"></a>
+                            {% endif %} 
+                        {% endfor %}
                     </div>
                     
                     <!-- GUMBI ZA LAJKANJE I KOMENTARE -->

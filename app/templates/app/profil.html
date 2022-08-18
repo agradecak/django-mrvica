@@ -7,6 +7,43 @@
     <!-- BLOK INFORMACIJA O TVITERASU -->
     <div class="block p-3">
         <div class="box">
+            <article class="media">
+                <div class="media-left">
+                    <figure class="image is-64x64">
+                        <img class="is-rounded" src="{{ profil.avatar.url }}" alt="Image">
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <div class="content">
+                    <p>
+                        <strong>{{ profil.ime }}</strong> <small>@{{ profil.korisnik.username }}</small> <small>31m</small>
+                        <br>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+                    </p>
+                    </div>
+                    <nav class="level is-mobile">
+                    <div class="level-left">
+                        <a class="level-item" aria-label="reply">
+                        <span class="icon is-small">
+                            <i class="fas fa-reply" aria-hidden="true"></i>
+                        </span>
+                        </a>
+                        <a class="level-item" aria-label="retweet">
+                        <span class="icon is-small">
+                            <i class="fas fa-retweet" aria-hidden="true"></i>
+                        </span>
+                        </a>
+                        <a class="level-item" aria-label="like">
+                        <span class="icon is-small">
+                            <i class="fas fa-heart" aria-hidden="true"></i>
+                        </span>
+                        </a>
+                    </div>
+                    </nav>
+                </div>
+            </article>
+        </div>
+        {% comment %} <div class="box">
 
             <div class="columns">
                 <!-- IME I HENDL -->
@@ -24,22 +61,14 @@
                             <div class="buttons is-justify-content-end">
                             {% if profil != user.profil %}
                                 {% if profil in user.profil.prati.all %}
-                                    <button class="button is-static">
-                                        <span class="icon"> <i class="fa-solid fa-user-plus"></i> </span>
-                                        <span>Zaprati</span>
-                                    </button>
-                                    <button class="button is-info" name="pracenje" value="neprati">
+                                    <button class="button is-success" name="pracenje" value="neprati">
                                         <span class="icon"> <i class="fa-solid fa-user-minus"></i> </span>
                                         <span>Otprati</span>
                                     </button>
                                 {% else %}
-                                    <button class="button is-info" name="pracenje" value="prati">
+                                    <button class="button is-success" name="pracenje" value="prati">
                                         <span class="icon"> <i class="fa-solid fa-user-plus"></i> </span>
                                         <span>Zaprati</span>
-                                    </button>
-                                    <button class="button is-static">
-                                        <span class="icon"> <i class="fa-solid fa-user-minus"></i> </span>
-                                        <span>Otprati</span>
                                     </button>
                                 {% endif %}
                             {% endif %}
@@ -69,7 +98,7 @@
                     </span>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
     </div>
 
     <!-- BLOK ZA LISTU TVITOVA -->

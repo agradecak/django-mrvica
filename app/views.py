@@ -73,7 +73,7 @@ def objava(request, pk):
 		return redirect(trenutni_path)
 	else:
 		komentar_form = KomentarForm()
-	return render(request, "app/objava.html", {"objava": objava, "komentar_form": komentar_form})
+	return render(request, "app/objava.html", {"objava": objava, "komentar_form": komentar_form,})
 
 @login_required
 def profil(request, pk):
@@ -97,14 +97,14 @@ def uredi_profil(request):
 	profil = request.user.profil
 
 	if request.method == 'POST':
-		profil_form = ProfilForm(request.POST, instance=profil)
+		profil_form = ProfilForm(request.POST, request.FILES, instance=profil)
 		if profil_form.is_valid():
 			novi_podaci = profil_form.save(commit=False)
 			novi_podaci.save()
 
 			return redirect('app:profil', pk=profil.id)
 	else:
-		profil_form = ProfilForm()
+		profil_form = ProfilForm(instance=profil)
 	return render(request, 'app/uredi_profil.html', {'profil_form': profil_form})
 
 def register_request(request):

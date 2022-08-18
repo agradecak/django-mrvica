@@ -15,4 +15,6 @@ urlpatterns = [
     path('objava/<int:pk>', objava, name='objava'),
     path('profil/<int:pk>', profil, name='profil'),
     path('uredi_profil/', uredi_profil, name='uredi_profil'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

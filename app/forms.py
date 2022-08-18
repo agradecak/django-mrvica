@@ -2,6 +2,7 @@
 # from tkinter import Widget, Image
 # from urllib import request
 from django import forms
+from django.core.files.images import get_image_dimensions
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
 from django.contrib.auth.models import User
 from .models import *
@@ -172,7 +173,6 @@ class ProfilForm(forms.ModelForm):
                 "class": "input is-grey-light is-medium",
             }
         ),
-        label="Ime",
     )
 
     opis = forms.CharField(
@@ -183,7 +183,6 @@ class ProfilForm(forms.ModelForm):
                 "class": "input is-grey-light is-medium",
             }
         ),
-        label="Opis",
     )
 
     lokacija = forms.CharField(
@@ -194,12 +193,49 @@ class ProfilForm(forms.ModelForm):
                 "class": "input is-grey-light is-medium",
             }
         ),
-        label="Lokacija",
+    )
+
+    avatar = forms.ImageField(
+        required=False,
+        widget=forms.ClearableFileInput
     )
 
     class Meta:
         model = Profil
         exclude = ("korisnik", "prati", )
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data['avatar']
+
+        try:
+            w, h = get_image_dimensions(avatar)
+
+            #validate dimensions
+            max_width = max_height = 100
+            if w > max_width or h > max_height:
+                raise forms.ValidationError(
+                    u'Molimo koristite sliku koja je '
+                     '%s x %s piksela ili manje.' % (max_width, max_height))
+
+            #validate content type
+            main, sub = avatar.content_type.split('/')
+            if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'gif', 'png']):
+                raise forms.ValidationError(u'Molimo koristite sliku u JPEG, '
+                    'GIF ili PNG formatu.')
+
+            #validate file size
+            if len(avatar) > (20 * 1024):
+                raise forms.ValidationError(
+                    u'Veličina datoteke ne smije preći 20k.')
+
+        except AttributeError:
+            """
+            Handles case when we are updating the user profile
+            and do not supply a new avatar
+            """
+            pass
+
+        return avatar
 
 class SlikaForm(forms.ModelForm):
     slika = forms.ImageField(
@@ -212,4 +248,4 @@ class SlikaForm(forms.ModelForm):
 
     class Meta:
         model = Slika
-        fields = ("slika",)
+        exclude = ("objava", )
