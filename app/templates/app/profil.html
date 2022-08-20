@@ -1,184 +1,183 @@
-{% extends 'base.html' %}
+{% extends 'base_logged_in.html' %}
 
 {% block content %}
 
 <!-- STUPAC ZA INFORMACIJE O TVITERASU I POPIS NJEGOVIH TVITOVA -->
-<div class="column">
+<div class="block">
     <!-- BLOK INFORMACIJA O TVITERASU -->
-    <div class="block p-3">
-        <div class="box">
-            <article class="media">
-                <div class="media-left">
-                    <figure class="image is-64x64">
-                        <img class="is-rounded" src="{{ profil.avatar.url }}" alt="Image">
-                    </figure>
-                </div>
-                <div class="media-content">
-                    <div class="content">
-                    <p>
-                        <strong>{{ profil.ime }}</strong> <small>@{{ profil.korisnik.username }}</small> <small>31m</small>
-                        <br>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
-                    </p>
-                    </div>
-                    <nav class="level is-mobile">
-                    <div class="level-left">
-                        <a class="level-item" aria-label="reply">
-                        <span class="icon is-small">
-                            <i class="fas fa-reply" aria-hidden="true"></i>
-                        </span>
-                        </a>
-                        <a class="level-item" aria-label="retweet">
-                        <span class="icon is-small">
-                            <i class="fas fa-retweet" aria-hidden="true"></i>
-                        </span>
-                        </a>
-                        <a class="level-item" aria-label="like">
-                        <span class="icon is-small">
-                            <i class="fas fa-heart" aria-hidden="true"></i>
-                        </span>
-                        </a>
-                    </div>
-                    </nav>
-                </div>
-            </article>
-        </div>
-        <div class="box">
-
-            <div class="columns">
-                <!-- IME I HENDL -->
-                <div class="column">
-                    <p>
-                        <span class="title is-4">{{ profil.ime }}</span><br>
-                        <span class="subtitle is-5">@{{ profil.korisnik.username }}</span>
-                    </p>
-                </div>
-
-                <!-- GUMBI ZA PRAĆENJE -->
-                <div class="column">
-                    <form method="post">
-                        {% csrf_token %}
-                            <div class="buttons is-justify-content-end">
-                            {% if profil != user.profil %}
-                                {% if profil in user.profil.prati.all %}
-                                    <button class="button is-success" name="pracenje" value="neprati">
-                                        <span class="icon"> <i class="fa-solid fa-user-minus"></i> </span>
-                                        <span>Otprati</span>
-                                    </button>
-                                {% else %}
-                                    <button class="button is-success" name="pracenje" value="prati">
-                                        <span class="icon"> <i class="fa-solid fa-user-plus"></i> </span>
-                                        <span>Zaprati</span>
-                                    </button>
-                                {% endif %}
-                            {% endif %}
-                            </div>
-                    </form>
-                </div>
+    <div class="box">
+        <article class="media">
+            <div class="media-left">
+                <figure class="image is-64x64">
+                    <img class="is-rounded" src="{{ profil.avatar.url }}" alt="Image">
+                </figure>
             </div>
-
-            <!-- OPIS TVITERAŠA -->
-            <div class="columns">
-                <div class="column">
-                    <span class="subtitle is-5">
-                        {{ profil.opis }}
-                    </span>
-                </div>
-            </div>
-
-            <!-- LOKACIJA I DATUM PRIDRUŽIVANJA -->
-            <div class="columns">
-                <div class="column">
-                    <span class="subtitle is-5">
-                        <span class="icon"> <i class="fa-solid fa-location-pin"></i> </span>
+            <div class="media-content">
+                <div class="content">
+                <p>
+                    <span class="title is-4 is-bold">{{ profil.ime }}</span>
+                    <span class="subtitle is-6 ml-2">@{{ profil.korisnik.username }}</span>
+                </p>
+                <p>
+                    <span class="subtitle is-5">{{ profil.opis }}</span>
+                </p>
+                <p>
+                    <span class="subtitle is-6">
+                        <span class="icon"> <i class="fa-solid fa-location-dot"></i> </span>
                         <span> {{ profil.lokacija }} </span>
 
-                        <span class="icon ml-5"> <i class="fa-solid fa-calendar-days"></i> </span>
+                        <span class="icon ml-4"> <i class="fa-solid fa-cake-candles"></i> </span>
                         <span> {{ profil.datum_pridruzivanja }} </span>
                     </span>
+                </p>
                 </div>
             </div>
-        </div>
+            <div class="media-right">
+                <form method="post">
+                    {% csrf_token %}
+                    {% if profil != user.profil %}
+                        {% if profil in user.profil.prati.all %}
+                            <button class="button is-rounded is-warning is-light" name="pracenje" value="neprati">
+                                <span class="icon"> <i class="fa-solid fa-user-minus"></i> </span>
+                            </button>
+                        {% else %}
+                            <button class="button is-rounded is-warning" name="pracenje" value="prati">
+                                <span class="icon"> <i class="fa-solid fa-user-plus"></i> </span>
+                            </button>
+                        {% endif %}
+                    {% endif %}
+                </form>
+            </div>
+        </article>
     </div>
+</div>
 
-    <!-- BLOK ZA LISTU TVITOVA -->
-    <div class="block mt-3 mx-3">
-        {% for objava in profil.korisnik.objave.all %}
-            <a href="{% url 'app:objava' objava.id %}">
-                <div class="box my-2 p-3">
-                    <article class="media">
-                        <div class="media-content">
-                            <div class="content">
-                                <p>
-                                    <span class="title is-size-5 has-text-bold"> {{ objava.stvorio.profil.ime }} </span>
-                                    <span class="subtitle is-size-6 has-text-grey-light"> @{{ objava.stvorio.username }} </span>
-                                    <span class="subtitle is-size-6 has-text-grey-light ml-5"> {{ objava.vrijeme_stvaranja|timesince }} </span>
-                                </p>
-                                <p>
-                                    {{ objava.sastojci }}
-                                </p>
-                                <p>
-                                    {{ objava.upute }}
-                                </p>
-                                <p>
-                                    {{ objava.napomene }}
-                                </p>
-                            </div>
-                            
-                            <!-- ISPIS BROJA LAJKOVA I KOMENTARA -->
-                            <nav class="level is-mobile mt-3">
-                                <div class="level-left">
-                                        <div class="buttons">
-                                            <button class="button is-small is-white" disabled>
-                                                <span class="icon"> <i class="fa-solid fa-heart"></i> </span>
-                                                <span class="is-size-6"> {{ objava.srca.count }} </span>
-                                            </button>
-                                            <button class="button is-small is-white" disabled>
-                                                <span class="icon"> <i class="fa-solid fa-comments"></i> </span>
-                                                <span class="is-size-6"> {{ objava.komentari.count }} </span>
-                                            </button>
-                                        </div>
-                                </div>
-                            </nav>  
-                        </div>
-                    </article>
+<div class="block is-flex is-justify-content-center">
+    {% if profil == user.profil %}
+        <a class="button is-warning is-rounded" href="{% url 'app:uredi_profil' %}">
+            <span class="icon"> <i class="fa-solid fa-address-card"></i> </span>
+            <span class="is-uppercase has-text-weight-bold"> uredi profil </span>
+        </a>
+    {% endif %}
+</div>
+
+{% if profili%}
+<div class="block is-flex is-justify-content-center pb-4">
+    <div class="columns is-vcentered">
+        {% for profil in profili %}
+            <a href="{% url 'app:profil' profil.id %}">
+                <div class="column p-4 has-text-centered">
+                    <figure class="image is-64x64" style="margin: auto;">
+                        <img class="is-rounded" src="{{ profil.avatar.url }}" alt="Image">
+                    </figure>
+                    <span class="subtitle is-6">@{{ profil.korisnik.username }}</span>
                 </div>
             </a>
         {% endfor %}
+        <div class="column">
+            <a class="button is-warning is-rounded" href="/naslovna/">
+                <span class="icon"> <i class="fa-solid fa-user"></i> </span>
+                <span class="is-uppercase has-text-weight-bold">profili</strong>
+            </a>
+        </div>        
     </div>
+</div>
+{% endif %}
+
+{% if profil.prati.all %}
+<div class="block is-flex is-justify-content-center p-4">
+    <div class="columns is-vcentered">
+        {% for prati_profil in profil.prati.all|slice:':5' %}
+            <a href="{% url 'app:profil' prati_profil.id %}">
+                <div class="column p-4 has-text-centered">
+                    <figure class="image is-64x64" style="margin: auto;">
+                        <img class="is-rounded" src="{{ prati_profil.avatar.url }}" alt="Image">
+                    </figure>
+                    <span class="subtitle is-6">@{{ prati_profil.korisnik.username }}</span>
+                </div>
+            </a>
+        {% endfor %}
+        <div class="column">
+            <a class="button is-warning is-rounded" href="/naslovna/">
+                <span class="icon"> <i class="fa-solid fa-user"></i> </span>
+                <span class="is-uppercase has-text-weight-bold">ostali</strong>
+            </a>
+        </div>        
+    </div>
+</div>
+{% endif %}
+
+{% if profil.pracen_od.all %}
+<div class="block is-flex is-justify-content-center p-4">
+    <div class="columns is-vcentered">
+        {% for prate_profil in profil.pracen_od.all|slice:':5' %}
+            <a href="{% url 'app:profil' prate_profil.id %}">
+                <div class="column p-4 has-text-centered">
+                    <figure class="image is-64x64" style="margin: auto;">
+                        <img class="is-rounded" src="{{ prate_profil.avatar.url }}" alt="Image">
+                    </figure>
+                    <span class="subtitle is-6">@{{ prate_profil.korisnik.username }}</span>
+                </div>
+            </a>
+        {% endfor %}
+        <div class="column">
+            <a class="button is-warning is-rounded" href="/naslovna/">
+                <span class="icon"> <i class="fa-solid fa-user"></i> </span>
+                <span class="is-uppercase has-text-weight-bold">ostali</strong>
+            </a>
+        </div>        
+    </div>
+</div>
+{% endif %}
+
+    <!-- BLOK ZA LISTU TVITOVA -->
+<div class="block">
+    {% for objava in profil.korisnik.objave.all %}
+        <div class="box">
+            <a href="{% url 'app:objava' objava.id %}">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <span class="title is-size-5 has-text-bold"> {{ objava.stvorio.profil.ime }} </span>
+                                <span class="subtitle is-size-6 has-text-grey-light ml-2"> @{{ objava.stvorio.username }} </span>
+                                <span class="subtitle is-size-6 has-text-grey-light ml-2"> {{ objava.vrijeme_stvaranja|timesince }} </span>
+                            </p>
+                            <p>
+                                {{ objava.sastojci }}
+                            </p>
+                            <p>
+                                {{ objava.upute }}
+                            </p>
+                            <p>
+                                {{ objava.napomene }}
+                            </p>
+                        </div>
+                        
+                        <!-- ISPIS BROJA LAJKOVA I KOMENTARA -->
+                        <nav class="level is-mobile mt-3">
+                            <div class="level-left">
+                                    <div class="buttons">
+                                        <button class="button is-small is-white" disabled>
+                                            <span class="icon"> <i class="fa-solid fa-heart"></i> </span>
+                                            <span class="is-size-6"> {{ objava.srca.count }} </span>
+                                        </button>
+                                        <button class="button is-small is-white" disabled>
+                                            <span class="icon"> <i class="fa-solid fa-comments"></i> </span>
+                                            <span class="is-size-6"> {{ objava.komentari.count }} </span>
+                                        </button>
+                                    </div>
+                            </div>
+                        </nav>  
+                    </div>
+                </article>
+            </a>
+        </div>
+    {% endfor %}
 </div>
 
 <!-- STUPAC ZA POPIS PRATITELJA-->
 <div class="column is-one-quarter">
-    
-    <!-- BLOK ZA GUMBE MOJ PROFIL; UREDI PROFIL; LOGOUT;  -->
-    <div class="block mt-6">
-        <div class="content">
-            <div class="buttons is-justify-content-center is-flex-direction-column">
-                {% if profil == user.profil %}
-                    <a href="{% url 'app:uredi_profil' %}">
-                        <button class="button is-info is-medium">
-                            <span class="icon"> <i class="fa-solid fa-address-card"></i> </span>
-                            <span> Uredi profil </span>
-                        </button>
-                    </a>
-                {% else %}
-                    <a href="{% url 'app:profil' user.profil.id %}">
-                        <button class="button is-info is-medium">
-                            <span class="icon"> <i class="fa-solid fa-address-card"></i> </span>
-                            <span> Moj profil </span>
-                        </button>
-                    </a>
-                {% endif %}
-                <a href='/logout'>
-                    <button class="button is-info is-medium">
-                        <span class="icon"> <i class="fa-solid fa-address-card"></i> </span>
-                        <span> Logout </span>
-                    </button>
-                </a>
-            </div>
-        </div>
-    </div>
 
     <!-- BLOK ZA POPIS TVITERASA KOJE KORISNIK PRATI -->
     <div class="block mt-6">
@@ -230,7 +229,6 @@
             {% endfor %}
         </div>
     </div>
-
 </div>
 
 {% endblock content %}

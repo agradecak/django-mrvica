@@ -1,4 +1,5 @@
 from gc import get_objects
+import random
 from urllib.request import HTTPRedirectHandler
 from django.shortcuts import render, redirect, reverse
 from django.core.mail import send_mail, BadHeaderError
@@ -21,8 +22,9 @@ from .models import *
 
 @login_required
 def naslovna(request):
-	profili = Profil.objects.exclude(korisnik=request.user)
-	return render(request, 'app/naslovna.html', {'profili': profili})
+	profili = list(Profil.objects.exclude(korisnik=request.user))
+	random_profili = random.sample(profili, 5)
+	return render(request, 'app/naslovna.html', {'profili': random_profili})
 
 @login_required
 def nova_objava(request):
@@ -63,8 +65,7 @@ def objava(request, pk):
 			messages.error(request, "Komentar nije valjan.")
 
 		logirani_korisnik = request.user
-		podaci = request.POST
-		radnja_srce = podaci.get("srce")
+		radnja_srce = request.POST.get("srce")
 
 		if radnja_srce == "voli":
 			objava.objava_srca.add(logirani_korisnik)
@@ -96,10 +97,10 @@ def brisi_komentar(request, objava_id, komentar_id):
 @login_required
 def profil(request, pk):
 	profil = Profil.objects.get(pk=pk)
+
 	if request.method == "POST":
 		logirani_profil = request.user.profil
-		podaci = request.POST
-		radnja_pracenje = podaci.get("pracenje")
+		radnja_pracenje = request.POST.get("pracenje")
 
 		if radnja_pracenje == "prati":
 			logirani_profil.prati.add(profil)

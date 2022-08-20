@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_logged_in.html' %}
 
 {% block content %}
 <div class="column">
@@ -10,37 +10,42 @@
                     <!-- SADRŽAJ TVITA -->
                     <div class="content">
                         <p>
-                            <span class="title is-size-5 has-text-bold"> {{ objava.stvorio.profil.ime }} </span>
-                            <span class="subtitle is-size-6 has-text-grey-light"> @{{ objava.stvorio.username }} </span>
-                            <span class="subtitle is-size-6 has-text-grey-light ml-5"> {{ objava.vrijeme_stvaranja|timesince }} </span>
-                            <div class="buttons is-justify-content-end">
-                                {% if objava.stvorio == user %}
-                                <a href="{% url 'app:brisi_objavu' objava.id %}">
-                                    <button class="button is-info is-small">
-                                        <span class="icon"> <i class="fa-solid fa-comment-slash"></i> </span>
-                                        <span>Izbriši</span>
-                                    </button>
-                                </a>
-                                {% endif %}
-                                </div>
+                            <span class="title is-size-4 has-text-bold"> {{ objava.stvorio.profil.ime }} </span>
+                            <span class="subtitle is-size-5 has-text-grey-light ml-2"> @{{ objava.stvorio.username }} </span>
+                            <span class="subtitle is-size-5 has-text-grey-light ml-2"> {{ objava.vrijeme_stvaranja|timesince }} </span>
                         </p>
                         <p>
+                            <span class="title is-size-5 has-text-bold">Sastojci:</span> <br>
                             {{ objava.sastojci }}
                         </p>
                         <p>
+                            <span class="title is-size-5 has-text-bold">Upute:</span> <br>
                             {{ objava.upute }}
                         </p>
                         <p>
-                            {{ objava.napomene }}
+                            {% if objava.napomene %}
+                                <span class="title is-size-5 has-text-bold">Napomene:</span> <br>
+                                {{ objava.napomene }}
+                            {% endif %}
                         </p>
-                        {% for objava_slika in objava.objava_slike.all %}
+                        <div class="columns is-multiline is-flex is-justify-content-center ">
+                            {% for objava_slika in objava.objava_slike.all %}
                             {% if objava_slika.slika %}
-                              <a href="#" class="image"><img src="{{ objava_slika.slika.url }}"></a>
-                            {% endif %} 
-                        {% endfor %}
+                            <div class="column is-half-mobile is-one-quarter-desktop is-half-tablet">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <a href="{{ objava_slika.slika.url }}" target="_blank" class="image">
+                                            <img src="{{ objava_slika.slika.url }}" alt="Image">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
                     
-                    <!-- GUMBI ZA LAJKANJE I KOMENTARE -->
+                    <!-- broj srca i komentara -->
                     <nav class="level is-mobile mt-5">
                         <div class="level-left">
                             <form method="post">
@@ -67,6 +72,15 @@
                     </nav>  
                 </div>
             </article>
+        </div>
+        <div class="block is-flex is-justify-content-center">
+            {% if objava.stvorio == user %}
+                <a class="button is-warning is-rounded" href="{% url 'app:brisi_objavu' objava.id %}">
+                        <span class="icon"> <i class="fa-solid fa-comment-slash"></i> </span>
+                        <span>Izbriši</span>
+                    </button>
+                </a>
+            {% endif %}
         </div>
     </div>
 

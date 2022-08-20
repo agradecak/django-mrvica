@@ -1,0 +1,50 @@
+<!--base_logged_in.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Mrvica</title>
+</head>
+<body>
+    <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+        <div id="navbarBasicExample" class="navbar-menu is-active">
+            <div class="navbar-start">
+                <div class="navbar-item">
+                        <a class="button is-warning is-rounded" href='/naslovna/'>
+                            <span class="icon"> <i class="fa-solid fa-bread-slice"></i> </span>
+                            <span class="is-uppercase has-text-weight-bold">
+                                mrvica
+                            </span>
+                        </a>
+                </div>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-warning is-rounded" href="{% url 'app:profil' user.profil.id %}">
+                            <span class="icon"> <i class="fa-solid fa-user"></i> </span>
+                            <span class="is-uppercase has-text-weight-bold">
+                                profil
+                            </span>
+                        </a>
+                        <a class="button is-warning is-rounded" href='/logout/'>
+                            <span class="icon"> <i class="fa-solid fa-right-from-bracket"></i> </span>
+                            <span class="is-uppercase has-text-weight-bold">
+                                odjava
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </nav>
+
+    <div class="container p-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

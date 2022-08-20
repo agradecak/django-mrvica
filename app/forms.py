@@ -204,38 +204,38 @@ class ProfilForm(forms.ModelForm):
         model = Profil
         exclude = ("korisnik", "prati", )
 
-    def clean_avatar(self):
-        avatar = self.cleaned_data['avatar']
+    # def clean_avatar(self):
+    #     avatar = self.cleaned_data['avatar']
 
-        try:
-            w, h = get_image_dimensions(avatar)
+    #     try:
+    #         w, h = get_image_dimensions(avatar)
 
-            #validate dimensions
-            max_width = max_height = 100
-            if w > max_width or h > max_height:
-                raise forms.ValidationError(
-                    u'Molimo koristite sliku koja je '
-                     '%s x %s piksela ili manje.' % (max_width, max_height))
+    #         #validate dimensions
+    #         max_width = max_height = 100
+    #         if w > max_width or h > max_height:
+    #             raise forms.ValidationError(
+    #                 u'Molimo koristite sliku koja je '
+    #                  '%s x %s piksela ili manje.' % (max_width, max_height))
 
-            #validate content type
-            main, sub = avatar.content_type.split('/')
-            if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'gif', 'png']):
-                raise forms.ValidationError(u'Molimo koristite sliku u JPEG, '
-                    'GIF ili PNG formatu.')
+    #         #validate content type
+    #         main, sub = avatar.content_type.split('/')
+    #         if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'gif', 'png']):
+    #             raise forms.ValidationError(u'Molimo koristite sliku u JPEG, '
+    #                 'GIF ili PNG formatu.')
 
-            #validate file size
-            if len(avatar) > (20 * 1024):
-                raise forms.ValidationError(
-                    u'Veličina datoteke ne smije preći 20k.')
+    #         #validate file size
+    #         if len(avatar) > (20 * 1024):
+    #             raise forms.ValidationError(
+    #                 u'Veličina datoteke ne smije preći 20k.')
 
-        except AttributeError:
-            """
-            Handles case when we are updating the user profile
-            and do not supply a new avatar
-            """
-            pass
+    #     except AttributeError:
+    #         """
+    #         Handles case when we are updating the user profile
+    #         and do not supply a new avatar
+    #         """
+    #         pass
 
-        return avatar
+    #     return avatar
 
 class SlikaForm(forms.ModelForm):
     slika = forms.ImageField(
