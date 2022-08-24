@@ -60,7 +60,6 @@ class Profil(models.Model):
 class Srce(models.Model):
     objava = models.ForeignKey('Objava', related_name='srca', on_delete=models.CASCADE)
     stvorio = models.ForeignKey(User, related_name='srca', on_delete=models.CASCADE)
-    vrijeme_lajkanja = models.DateTimeField(auto_now_add=True)
     
     class Meta:
         verbose_name_plural = 'Srca'
