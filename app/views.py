@@ -23,8 +23,16 @@ from .models import *
 @login_required
 def naslovna(request):
 	profili = list(Profil.objects.exclude(korisnik=request.user))
-	random_profili = random.sample(profili, 5)
+	if len(profili) > 5:
+		random_profili = random.sample(profili, 5)
+	else:
+		random_profili = profili
 	return render(request, 'app/naslovna.html', {'profili': random_profili})
+
+@login_required
+def profili(request):
+	profili = Profil.objects.exclude(korisnik=request.user)
+	return render(request, 'app/profili.html', {'profili': profili})
 
 @login_required
 def nova_objava(request):
@@ -110,6 +118,16 @@ def profil(request, pk):
 		logirani_profil.save()
 	
 	return render(request, "app/profil.html", {"profil": profil})
+
+@login_required
+def prate(request, pk):
+	profil = Profil.objects.get(pk=pk)
+	return render(request, "app/prate.html", {"profil": profil})
+
+@login_required
+def prati(request, pk):
+	profil = Profil.objects.get(pk=pk)
+	return render(request, "app/prati.html", {"profil": profil})
 
 @login_required
 def uredi_profil(request):

@@ -1,0 +1,56 @@
+{% extends 'base_logged_in.html' %}
+
+{% block content %}
+
+<div class="columns is-flex is-justify-content-center">
+    <div class="column is-8-tablet is-7-mobile is-7-desktop">
+        <div class="block is-flex is-justify-content-center">
+            <span class="title is-3">
+                {{ profil.pracen_od.all.count }}
+                {% if profil.pracen_od.all.count == 1%} profil prati{% else %} profila prate{% endif %}
+                <a href="{% url 'app:profil' profil.id %}">{{ profil.korisnik.username }}</a>:
+            </span>
+        </div>
+
+        <!-- ispisivanje profila koji prate korisnika -->
+        {% for profil in profil.pracen_od.all %}
+        <div class="block">
+            <div class="box">
+                <article class="media">
+                    <div class="media-left">
+                        <figure class="image is-64x64">
+                            <a href='{% url 'app:profil' profil.id %}'>
+                                <img class="is-rounded" src="{{ profil.avatar.url }}" alt="Image">
+                            </a>
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <div class="content">
+                        <p>
+                            <a href='{% url 'app:profil' profil.id %}'>
+                                <span class="title is-4 is-bold">{{ profil.ime }}</span>
+                                <span class="subtitle is-6 ml-2">@{{ profil.korisnik.username }}</span>
+                            </a>
+                        </p>
+                        <p>
+                            <span class="subtitle is-5">{{ profil.opis }}</span>
+                        </p>
+                        <p>
+                            <span class="subtitle is-6">
+                                <span class="icon"> <i class="fa-solid fa-location-dot"></i> </span>
+                                <span> {{ profil.lokacija }} </span>
+
+                                <span class="icon ml-4"> <i class="fa-solid fa-cake-candles"></i> </span>
+                                <span> {{ profil.datum_pridruzivanja }} </span>
+                            </span>
+                        </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

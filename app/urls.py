@@ -8,6 +8,7 @@ app_name = 'app'
 urlpatterns = [
     path('', login_request, name='login'),
     path('naslovna/', naslovna, name='naslovna'),
+    path('profili/', profili, name='profili'),
     path('logout/', logout_request, name= 'logout'),
     path('register/', register_request, name='register'),
     path('password_reset/', password_reset_request, name='password_reset'),
@@ -16,6 +17,8 @@ urlpatterns = [
     path('objava/<int:objava_id>/brisi_objavu/', brisi_objavu, name='brisi_objavu'),
     path('objava/<int:objava_id>/brisi_komentar/<int:komentar_id>/', brisi_komentar, name='brisi_komentar'),
     path('profil/<int:pk>', profil, name='profil'),
+    path('profil/<int:pk>/prate/', prate, name='prate'),
+    path('profil/<int:pk>/prati/', prati, name='prati'),
     path('uredi_profil/', uredi_profil, name='uredi_profil'),
 ]
 
