@@ -5,64 +5,66 @@
 {% block content %}
 
 <!--Registracija-->
-<div class="container">
-	<div class="columns is-centered">
-		<div class="column is-5-tablet is-4-desktop is-4-widescreen">
-			<form method="POST" class="box">
-				<div class="title has-text-centered">
-					<p >Registracija</p>
-				</div>
-				{% csrf_token %}
-				{{ register_form.non_field_errors }}
-				<div class="field">
-					<label class="label" for="{{ register_form.username.id_for_label }}">Korisničko ime:</label>
-					<div class="control has-icons-left">
-					{{ register_form.username }}
-					<span class="icon is-small is-left">
-						<i class="fas fa-user"></i>
-					</span>
+<div class="columns is-flex is-justify-content-center">
+	<div class="column is-5-tablet is-4-desktop is-4-widescreen">
+		<div class="block">
+			<div class="box">
+				<form method="POST">
+					<div class="title has-text-centered">
+						<p >Registracija</p>
 					</div>
-					{{ register_form.username.errors }}
-				</div>
-				<div class="field">
-					<label class="label" for="{{ register_form.email.id_for_label }}">Email:</label>
-					<div class="control has-icons-left">
-					{{ register_form.email }}
-					<span class="icon is-small is-left">
-						<i class="fas fa-envelope"></i>
-					</span>
+					{% csrf_token %}
+					{{ register_form.non_field_errors }}
+					<div class="field">
+						<label class="label" for="{{ register_form.username.id_for_label }}">Korisničko ime:</label>
+						<div class="control has-icons-left">
+						{{ register_form.username }}
+						<span class="icon is-small is-left">
+							<i class="fas fa-user"></i>
+						</span>
+						</div>
+						{{ register_form.username.errors }}
 					</div>
-					{{ register_form.username.errors }}
-				</div>
-				<div class="field">
-					<label class="label" for="{{ register_form.password1.id_for_label }}">Lozinka:</label>
-					<div class="control has-icons-left">
-					{{ register_form.password1 }}
-					<span class="icon is-small is-left">
-						<i class="fas fa-key"></i>
-					</span>
+					<div class="field">
+						<label class="label" for="{{ register_form.email.id_for_label }}">Email:</label>
+						<div class="control has-icons-left">
+						{{ register_form.email }}
+						<span class="icon is-small is-left">
+							<i class="fas fa-envelope"></i>
+						</span>
+						</div>
+						{{ register_form.username.errors }}
 					</div>
-					{{ register_form.password1.errors }}
-				</div>
-				<div class="field">
-					<label class="label" for="{{ register_form.password2.id_for_label }}">Lozinka:</label>
-					<div class="control has-icons-left">
-					{{ register_form.password2 }}
-					<span class="icon is-small is-left">
-						<i class="fas fa-key"></i>
-					</span>
+					<div class="field">
+						<label class="label" for="{{ register_form.password1.id_for_label }}">Lozinka:</label>
+						<div class="control has-icons-left">
+						{{ register_form.password1 }}
+						<span class="icon is-small is-left">
+							<i class="fas fa-key"></i>
+						</span>
+						</div>
+						{{ register_form.password1.errors }}
 					</div>
-					{{ register_form.password2.errors }}
-				</div>
-				<div class="field has-text-centered">
-					<div class="control">
-					<button class="button is-light" type="submit">Registriraj me</button>
+					<div class="field">
+						<label class="label" for="{{ register_form.password2.id_for_label }}">Lozinka:</label>
+						<div class="control has-icons-left">
+						{{ register_form.password2 }}
+						<span class="icon is-small is-left">
+							<i class="fas fa-key"></i>
+						</span>
+						</div>
+						{{ register_form.password2.errors }}
 					</div>
-				</div>
-				<div class="field has-text-right">
-					<a href="/">Imate račun?</a>
-				</div>
-			</form>
+					<div class="field has-text-centered">
+						<button class="button is-warning is-rounded mt-1" type="submit">
+							<span class="is-uppercase has-text-weight-bold">registriraj me</span>
+						</button>
+					</div>
+					<div class="field has-text-right">
+						<a href="/">Imate račun?</a>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>

@@ -2,46 +2,51 @@
 
 {% extends 'base.html' %}
 
-{% block content %}      
+{% block content %}    
+
 <!--Prijava--> 
-<div class="container">
-    <div class="columns is-centered">
-        <div class="column is-5-tablet is-4-desktop is-4-widescreen">
-            <form method="POST" class="box mt-5">
-                <div class="title has-text-centered">
-                    <p >Prijava</p>
-                </div>
-                {% csrf_token %}
-                {{ login_form.non_field_errors }}
-                <div class="field">
-                    <label class="label" for="{{ login_form.username.id_for_label }}">Korisničko ime:</label>
-                    <div class="control has-icons-left">
-                        {{ login_form.username }}
-                        <span class="icon is-small is-left">
-                        <i class="fas fa-user"></i>
-                        </span>
+<div class="columns is-flex is-justify-content-center">
+    <div class="column is-5-tablet is-4-desktop is-4-widescreen">
+        <div class="block">
+            <div class="box">
+                <form method="POST">
+                    <div class="title has-text-centered">
+                        <p >Prijava</p>
                     </div>
-                    {{ login_form.username.errors }}
-                </div>
-                <div class="field">
-                    <label class="label" for="{{ login_form.password.id_for_label }}">Lozinka:</label>
-                    <div class="control has-icons-left">
-                        {{ login_form.password }}
-                        <span class="icon is-small is-left">
-                        <i class="fas fa-key"></i>
-                        </span>
+                    {% csrf_token %}
+                    {{ login_form.non_field_errors }}
+                    <div class="field">
+                        <label class="label" for="{{ login_form.username.id_for_label }}">Korisničko ime:</label>
+                        <div class="control has-icons-left">
+                            {{ login_form.username }}
+                            <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                            </span>
+                        </div>
+                        {{ login_form.username.errors }}
                     </div>
-                    {{ login_form.password.errors }}
-                </div>
-                <div class="field has-text-centered">
-                    <button class="button is-light" type="submit">Prijavi me</button>
-                </div>
-                <div class="field has-text-right">
-                    <a href="/password_reset">Zaboravili ste lozinku?</a>
-                    </br>
-                    <a href="/register">Nemate račun?</a>
-                </div>
-            </form>
+                    <div class="field">
+                        <label class="label" for="{{ login_form.password.id_for_label }}">Lozinka:</label>
+                        <div class="control has-icons-left">
+                            {{ login_form.password }}
+                            <span class="icon is-small is-left">
+                            <i class="fas fa-key"></i>
+                            </span>
+                        </div>
+                        {{ login_form.password.errors }}
+                    </div>
+                    <div class="field has-text-centered">
+                        <button class="button is-warning is-rounded mt-1" type="submit">
+                            <span class="is-uppercase has-text-weight-bold">prijavi me</span>
+                        </button>
+                    </div>
+                    <div class="field has-text-right">
+                        <a href="/password_reset">Zaboravili ste lozinku?</a>
+                        </br>
+                        <a href="/register">Nemate račun?</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
