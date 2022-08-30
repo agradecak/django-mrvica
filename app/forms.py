@@ -7,15 +7,14 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from django.contrib.auth.models import User
 from .models import *
 
-# Create your forms here.
-
+# Forme
 
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(
         required=True,
         widget=forms.widgets.TextInput(
             attrs={
-                "class": "input",
+                "class": "input is-grey-light is-medium",
                 "placeholder": "ivoivic",
             }
         ),
@@ -26,7 +25,7 @@ class UserLoginForm(AuthenticationForm):
 		widget=forms.PasswordInput(
 			attrs={
 				"type": "password",
-				"class": "input",
+				"class": "input is-grey-light is-medium",
                 "placeholder": "********",
 			}
 		),
@@ -37,7 +36,7 @@ class ResetPasswordForm(PasswordResetForm):
 		required=True,
 		widget=forms.widgets.TextInput(
 			attrs={
-				"class": "input",
+				"class": "input is-grey-light is-medium",
                 "placeholder": "ivoivic@email.com",
 			}
 		),
@@ -48,7 +47,7 @@ class NewUserForm(UserCreationForm):
 		required=True,
 		widget=forms.widgets.TextInput(
 			attrs={
-				"class": "input",
+				"class": "input is-grey-light is-medium",
                 "placeholder": "ivoivic",
 			}
 		),
@@ -58,7 +57,7 @@ class NewUserForm(UserCreationForm):
 		required=True,
 		widget=forms.widgets.TextInput(
 			attrs={
-				"class": "input",
+				"class": "input is-grey-light is-medium",
 				"placeholder": "ivoivic@email.com",
 			}
 		),
@@ -69,7 +68,7 @@ class NewUserForm(UserCreationForm):
 		widget=forms.PasswordInput(
 			attrs={
 				"type": "password",
-				"class": "input",
+				"class": "input is-grey-light is-medium",
 				"placeholder": "********",
 			}
 		),
@@ -80,7 +79,7 @@ class NewUserForm(UserCreationForm):
 		widget=forms.PasswordInput(
 			attrs={
 				"type": "password",
-				"class": "input",
+				"class": "input is-grey-light is-medium",
 				"placeholder": "********",
 			}
 		),
@@ -103,7 +102,7 @@ class ObjavaForm(forms.ModelForm):
         required=True,
         widget=forms.widgets.Textarea(
             attrs={
-                "placeholder": "Brze krafne",
+                "placeholder": "Tijesto za pizzu",
                 "class": "input is-grey-light is-medium",
             }
         ),
@@ -114,7 +113,7 @@ class ObjavaForm(forms.ModelForm):
         required=True,
         widget=forms.widgets.Textarea(
             attrs={
-                "placeholder": "200ml mlijeka\n350g brašna\n...",
+                "placeholder": "300g oštrog brašna...",
                 "class": "input is-grey-light is-medium",
             }
         ),
@@ -125,7 +124,7 @@ class ObjavaForm(forms.ModelForm):
         required=True,
         widget=forms.widgets.Textarea(
             attrs={
-                "placeholder": "pećnicu upaliti na 180°C\npromiješati suhe sastojke\n...",
+                "placeholder": "Pećnicu upaliti na 180°C...",
                 "class": "input is-grey-light is-medium",
             }
         ),
@@ -136,7 +135,7 @@ class ObjavaForm(forms.ModelForm):
         required=False,
         widget=forms.widgets.Textarea(
             attrs={
-                "placeholder": "mlijeko mora biti na sobnoj",
+                "placeholder": "Mlijeko mora biti na sobnoj temperaturi...",
                 "class": "input is-grey-light is-medium",
             }
         ),
@@ -144,7 +143,7 @@ class ObjavaForm(forms.ModelForm):
 
     class Meta:
         model = Objava
-        exclude = ("stvorio", "objava_srca", "objava_komentari", )
+        exclude = ("stvorio", "objava_srca", )
 
 
 class KomentarForm(forms.ModelForm):
@@ -179,7 +178,7 @@ class ProfilForm(forms.ModelForm):
         required=True,
         widget=forms.widgets.Textarea(
             attrs={
-                "placeholder": "Pekar iz Rijeke...",
+                "placeholder": "Pekar kruhova i krušnih proizvoda",
                 "class": "input is-grey-light is-medium",
             }
         ),

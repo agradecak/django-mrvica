@@ -37,10 +37,10 @@ def profili(request):
 @login_required
 def nova_objava(request):
 	if request.method == 'POST':
-		objava_form = ObjavaForm(request.POST)
+		obrazac_objave = ObjavaForm(request.POST)
 		files = request.FILES.getlist("slika")
-		if objava_form.is_valid():
-			objava = objava_form.save(commit=False)
+		if obrazac_objave.is_valid():
+			objava = obrazac_objave.save(commit=False)
 			objava.stvorio = request.user
 			objava.save()
 			for file in files:
@@ -51,9 +51,9 @@ def nova_objava(request):
 		else:
 			messages.error(request, "Objava nije valjana.")
 	else:
-		objava_form = ObjavaForm()
-		slika_form = SlikaForm()
-	return render(request, 'app/nova_objava.html', {'objava_form': objava_form, 'slika_form': slika_form})
+		obrazac_objave = ObjavaForm()
+		obrazac_slika = SlikaForm()
+	return render(request, 'app/nova_objava.html', {'obrazac_objave': obrazac_objave, 'obrazac_slika': obrazac_slika})
 
 @login_required
 def objava(request, pk):
@@ -61,14 +61,13 @@ def objava(request, pk):
 	trenutni_path = request.path
 
 	if request.method == "POST":
-		komentar_form = KomentarForm(request.POST)
-		if komentar_form.is_valid():
-			komentar = komentar_form.save(commit=False)
+		obrazac_komentara = KomentarForm(request.POST)
+		if obrazac_komentara.is_valid():
+			komentar = obrazac_komentara.save(commit=False)
 			komentar.objava = objava
 			komentar.stvorio = request.user
 			komentar.save()
 			messages.success(request, "Komentar uspješno stvoren.")
-			return redirect(trenutni_path)
 		else:
 			messages.error(request, "Komentar nije valjan.")
 
@@ -83,8 +82,8 @@ def objava(request, pk):
 		objava.save()
 		return redirect(trenutni_path)
 	else:
-		komentar_form = KomentarForm()
-	return render(request, "app/objava.html", {"objava": objava, "komentar_form": komentar_form,})
+		obrazac_komentara = KomentarForm()
+	return render(request, "app/objava.html", {"objava": objava, "obrazac_komentara": obrazac_komentara, })
 
 @login_required
 def brisi_objavu(request, objava_id):
@@ -159,10 +158,10 @@ def register_request(request):
 
 def login_request(request):
 	if request.method == "POST":
-		form = UserLoginForm(request, data=request.POST)
-		if form.is_valid():
-			username = form.cleaned_data.get('username')
-			password = form.cleaned_data.get('password')
+		obrazac_prijave = UserLoginForm(request, data=request.POST)
+		if obrazac_prijave.is_valid():
+			username = obrazac_prijave.cleaned_data.get('username')
+			password = obrazac_prijave.cleaned_data.get('password')
 			user = authenticate(username=username, password=password)
 			if user is not None:
 				login(request, user)
@@ -173,8 +172,8 @@ def login_request(request):
 		else:
 			messages.error(request,"Invalid username or password.")
 	else:
-		form = UserLoginForm()
-	return render(request, "app/login.html", {"login_form":form})
+		obrazac_prijave = UserLoginForm()
+	return render(request, "app/login.html", {"obrazac_prijave": obrazac_prijave})
 
 @login_required
 def logout_request(request):

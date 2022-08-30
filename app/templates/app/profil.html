@@ -4,7 +4,7 @@
 
 <!-- informacije o profilu -->
 <div class="columns is-flex is-justify-content-center">
-    <div class="column is-11-tablet is-10-desktop is-10-mobile">
+    <div class="column is-8-desktop is-7-tablet is-7-mobile ">
         <div class="block">
             <div class="box">
                 <article class="media">
@@ -15,22 +15,22 @@
                     </div>
                     <div class="media-content">
                         <div class="content">
-                        <p>
-                            <span class="title is-4 is-bold">{{ profil.ime }}</span>
-                            <span class="subtitle is-6 ml-2">@{{ profil.korisnik.username }}</span>
-                        </p>
-                        <p>
-                            <span class="subtitle is-5">{{ profil.opis }}</span>
-                        </p>
-                        <p>
-                            <span class="subtitle is-6">
-                                <span class="icon"> <i class="fa-solid fa-location-dot"></i> </span>
-                                <span> {{ profil.lokacija }} </span>
+                            <p>
+                                <span class="title is-4 is-bold">{{ profil.ime }}</span>
+                                <span class="subtitle is-6 ml-2">@{{ profil.korisnik.username }}</span>
+                            </p>
+                            <p>
+                                <span class="subtitle is-5">{{ profil.opis }}</span>
+                            </p>
+                            <p>
+                                <span class="subtitle is-6">
+                                    <span class="icon"> <i class="fa-solid fa-location-dot"></i> </span>
+                                    <span> {{ profil.lokacija }} </span>
 
-                                <span class="icon ml-4"> <i class="fa-solid fa-cake-candles"></i> </span>
-                                <span> {{ profil.datum_pridruzivanja }} </span>
-                            </span>
-                        </p>
+                                    <span class="icon ml-4"> <i class="fa-solid fa-cake-candles"></i> </span>
+                                    <span> {{ profil.datum_pridruzivanja }} </span>
+                                </span>
+                            </p>
                         </div>
                     </div>
                     <div class="media-right">
@@ -46,6 +46,11 @@
                                         <span class="icon"> <i class="fa-solid fa-user-plus"></i> </span>
                                     </button>
                                 {% endif %}
+                            {% else %}
+                                <a class="button is-warning is-rounded" href="{% url 'app:uredi_profil' %}">
+                                    <span class="icon"> <i class="fa-solid fa-pencil"></i> </span>
+                                    <span class="is-uppercase has-text-weight-bold">uredi</span>
+                                </a>
                             {% endif %}
                         </form>
                     </div>
@@ -53,15 +58,7 @@
             </div>
         </div>
 
-        <div class="block is-flex is-justify-content-center">
-            {% if profil == user.profil %}
-                <a class="button is-warning is-rounded" href="{% url 'app:uredi_profil' %}">
-                    <span class="icon"> <i class="fa-solid fa-address-card"></i> </span>
-                    <span class="is-uppercase has-text-weight-bold"> uredi profil </span>
-                </a>
-            {% endif %}
-        </div>
-
+        <!-- maknuti -->        
         {% if profili%}
         <div class="block is-flex is-justify-content-center pb-4">
             <div class="columns is-vcentered">
@@ -85,6 +82,7 @@
         </div>
         {% endif %}
 
+        <!-- popis profika koje korisnik prati -->
         {% if profil.prati.all %}
         <div class="block is-flex is-justify-content-center p-4">
             <div class="columns is-vcentered">
@@ -101,13 +99,14 @@
                 <div class="column">
                     <a class="button is-warning is-rounded" href="{% url 'app:prati' profil.id %}">
                         <span class="icon"> <i class="fa-solid fa-user"></i> </span>
-                        <span class="is-uppercase has-text-weight-bold">ostali</strong>
+                        <span class="is-uppercase has-text-weight-bold">svi</strong>
                     </a>
                 </div>        
             </div>
         </div>
         {% endif %}
 
+        <!-- popis profila koji prate korisnika-->
         {% if profil.pracen_od.all %}
         <div class="block is-flex is-justify-content-center p-4">
             <div class="columns is-vcentered">
@@ -124,14 +123,14 @@
                 <div class="column">
                     <a class="button is-warning is-rounded" href="{% url 'app:prate' profil.id %}">
                         <span class="icon"> <i class="fa-solid fa-user"></i> </span>
-                        <span class="is-uppercase has-text-weight-bold">ostali</strong>
+                        <span class="is-uppercase has-text-weight-bold">svi</strong>
                     </a>
                 </div>        
             </div>
         </div>
         {% endif %}
 
-            <!-- BLOK ZA LISTU TVITOVA -->
+        <!-- popis objava -->
         <div class="block">
             {% for objava in profil.korisnik.objave.all %}
                 <div class="box">
@@ -155,7 +154,7 @@
                                     </p>
                                 </div>
                                 
-                                <!-- ISPIS BROJA LAJKOVA I KOMENTARA -->
+                                <!-- ispis broja lajkova i komentara -->
                                 <nav class="level is-mobile mt-3">
                                     <div class="level-left">
                                             <div class="buttons">

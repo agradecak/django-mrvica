@@ -14,26 +14,26 @@
                         <p >Prijava</p>
                     </div>
                     {% csrf_token %}
-                    {{ login_form.non_field_errors }}
+                    {{ obrazac_prijave.non_field_errors }}
                     <div class="field">
-                        <label class="label" for="{{ login_form.username.id_for_label }}">Korisničko ime:</label>
+                        <label class="label" for="{{ obrazac_prijave.username.id_for_label }}">Korisničko ime:</label>
                         <div class="control has-icons-left">
-                            {{ login_form.username }}
+                            {{ obrazac_prijave.username }}
                             <span class="icon is-small is-left">
                             <i class="fas fa-user"></i>
                             </span>
                         </div>
-                        {{ login_form.username.errors }}
+                        {{ obrazac_prijave.username.errors }}
                     </div>
                     <div class="field">
-                        <label class="label" for="{{ login_form.password.id_for_label }}">Lozinka:</label>
+                        <label class="label" for="{{ obrazac_prijave.password.id_for_label }}">Lozinka:</label>
                         <div class="control has-icons-left">
-                            {{ login_form.password }}
+                            {{ obrazac_prijave.password }}
                             <span class="icon is-small is-left">
                             <i class="fas fa-key"></i>
                             </span>
                         </div>
-                        {{ login_form.password.errors }}
+                        {{ obrazac_prijave.password.errors }}
                     </div>
                     <div class="field has-text-centered">
                         <button class="button is-warning is-rounded mt-1" type="submit">

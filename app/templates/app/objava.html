@@ -5,7 +5,7 @@
     <div class="column is-8-tablet is-7-desktop is-7-mobile">
         <!-- blok za objavu -->
         <div class="block mt-3 mx-3">
-            <div class="box my-2 p-3">
+            <div class="box my-2 p-4">
                 <article class="media">
                     <div class="media-left">
                         <figure class="image is-64x64">
@@ -18,45 +18,50 @@
                         <div class="content">
                             <p>
                                 <a href='{% url 'app:profil' objava.stvorio.profil.id %}'>
-                                    <span class="title is-size-4 has-text-bold"> {{ objava.stvorio.profil.ime }} </span>
-                                    <span class="subtitle is-size-5 has-text-grey-light ml-2"> @{{ objava.stvorio.username }} </span>
+                                    <span class="title is-size-4 has-text-bold">{{ objava.stvorio.profil.ime }}</span>
+                                    <span class="subtitle is-size-5 has-text-grey-light ml-2">@{{ objava.stvorio.username }}</span>
                                 </a>
-                                <span class="subtitle is-size-5 has-text-grey-light ml-2"> {{ objava.vrijeme_stvaranja|timesince }} </span>
+                                <span class="subtitle is-size-5 has-text-grey-light ml-2">{{ objava.vrijeme_stvaranja|timesince }}</span>
                             </p>
-                            <p>
-                                <span class="title is-size-5 has-text-bold">Sastojci:</span> <br>
-                                {{ objava.sastojci }}
+                            <p class="title is-size-5 has-text-bold">
+                                Sastojci:
                             </p>
-                            <p>
-                                <span class="title is-size-5 has-text-bold">Upute:</span> <br>
-                                {{ objava.upute }}
-                            </p>
-                            <p>
-                                {% if objava.napomene %}
-                                    <span class="title is-size-5 has-text-bold">Napomene:</span> <br>
-                                    {{ objava.napomene }}
-                                {% endif %}
-                            </p>
-                            <div class="columns is-multiline is-flex is-justify-content-center ">
-                                {% for objava_slika in objava.objava_slike.all %}
-                                {% if objava_slika.slika %}
-                                <div class="column is-half-mobile is-one-quarter-desktop is-half-tablet">
-                                    <div class="card">
-                                        <div class="card-image">
-                                            <a href="{{ objava_slika.slika.url }}" target="_blank" class="image">
-                                                <img src="{{ objava_slika.slika.url }}" alt="Image">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endif %}
+                            <ul>
+                                {% for sastojak in objava.sastojci_as_list %}
+                                    <li>{{ sastojak }}</li>
                                 {% endfor %}
-                            </div>
+                            </ul>
+                            <p class="title is-size-5 has-text-bold">
+                                Upute:
+                            </p>
+                            <ol>
+                                {% for uputa in objava.upute_as_list %}
+                                    <li>{{ uputa }}</li>
+                                {% endfor %}
+                            </ol>
+                            {% if objava.napomene %}
+                                <p class="title is-size-5 has-text-bold">Napomene:</p>
+                                <p class="pl-4">{{ objava.napomene }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </article>
+                <div class="columns is-multiline is-flex is-justify-content-center p-3 mt-3">
+                    {% for objava_slika in objava.objava_slike.all %}
+                            <div class="column is-one-third-widescreen is-one-third-desktop is-half-tablet is-half-mobile">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <a href="{{ objava_slika.slika.url }}" target="_blank" class="image">
+                                            <img src="{{ objava_slika.slika.url }}" alt="Image">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                    {% endfor %}
+                </div>
+
                 <!-- broj srca i komentara -->
-                <nav class="level is-mobile mt-5">
+                <nav class="level is-mobile">
                     <div class="level-left">
                         <form method="post">
                             {% csrf_token %}
@@ -83,8 +88,8 @@
                         <div class="level-right">
                             <div class="buttons">
                                 <a class="button is-warning is-rounded" href="{% url 'app:brisi_objavu' objava.id %}">
-                                    <span class="icon"> <i class="fa-solid fa-comment-slash"></i> </span>
-                                    <span>Obriši</span>
+                                    <span class="icon"> <i class="fa-solid fa-ban"></i> </span>
+                                    <span class="is-uppercase has-text-weight-bold">briši</span>
                                 </a>
                             </div> 
                         </div>
@@ -93,64 +98,69 @@
             </div>
         </div>
 
-        <!-- BLOK ZA UNOS NOVOG KOMENTARA -->
+        <!-- blok za unos novog komentara -->
         <div class="block mt-3 mx-6">
             <div class="box my-2 py-1 px-3">
-                <article class="media">
-                    <div class="media-content">
-                        <div class="content p-3">
-                            <form method="post">
-                                {% csrf_token %}
-                                {{ komentar_form.tijelo }}
-                                <div class="buttons mt-1 is-justify-content-center">
-                                    <button class="button is-warning is-rounded is-medium m-4" type="submit">
-                                        <span class="icon"> <i class="fa-solid fa-comment"></i> </span>
-                                        <span>Komentiraj</span>
-                                    </button>
-                                </div>
-                            </form>
+                <div class="content p-3">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ obrazac_komentara.tijelo }}
+                        <div class="buttons mt-1 is-justify-content-center">
+                            <button class="button is-warning is-rounded m-4" type="submit">
+                                <span class="icon"> <i class="fa-solid fa-comment"></i> </span>
+                                <span class="is-uppercase has-text-weight-bold">komentiraj</span>
+                            </button>
                         </div>
-                    </div>
-                </article>
+                    </form>
+                </div>
             </div>
         </div>
 
-        <!-- BLOKA ZA ISPIS KOMENTARA TVITA -->
-        <div class="block mt-3 mx-6">
+        <!-- blok za ispis komentara -->
+        <div class="block mx-6">
             {% for komentar in objava.komentari.all %}
-                <div class="box my-2 py-1 px-3">
+                <div class="box my-2 p-3">
                     <article class="media">
+                        <div class="media-left">
+                            <figure class="image is-48x48">
+                                <a href='{% url 'app:profil' objava.stvorio.profil.id %}'>
+                                    <img class="is-rounded" src="{{ objava.stvorio.profil.avatar.url }}" alt="Image">
+                                </a>
+                            </figure>
+                        </div>
                         <div class="media-content">
                             <div class="content">
-                                <!-- ISPIS SADRŽAJA KOMENTARA -->
-                                <div class="column">
-                                    <div class="columns">
-                                        <div class="column">
-                                            <span class="is-size-5 has-text-bold"> {{ komentar.stvorio.profil.ime }} </span>
-                                            <span class="is-size-6 has-text-grey-light"> @{{ komentar.stvorio.username }} </span>
-                                            <span class="is-size-6 has-text-grey-light ml-5"> {{ komentar.vrijeme_komentiranja|timesince }} </span>
+                                <!-- podaci o profilu -->
+                                <div class="level is-vcentered">
+                                    <div class="level-left">
+                                        <a class="has-text-black" href="{% url 'app:profil' komentar.stvorio.profil.id %}">
+                                            <span class="title is-size-5 has-text-bold"> {{ komentar.stvorio.profil.ime }} </span>
+                                            <span class="subtitle is-size-6 has-text-grey-light ml-2"> @{{ komentar.stvorio.username }} </span>
+                                        </a>
+                                        <span class="subtitle is-size-6 has-text-grey-light ml-2"> {{ komentar.vrijeme_komentiranja|timesince }} </span>
 
-                                        </div>
-                                        <div class="column">
-                                            <div class="buttons is-justify-content-end">
+                                    </div>
+
+                                    <!-- gumb izbriši komentar -->
+                                    <div class="level-right">
+                                        <div class="buttons is-justify-content-end">
                                             {% if komentar.stvorio == user %}
-                                            <a href="{% url 'app:brisi_komentar' objava.id komentar.id %}">
-                                                <button class="button is-info is-small">
-                                                    <span class="icon"> <i class="fa-solid fa-comment-slash"></i> </span>
-                                                    <span>Izbriši</span>
-                                                </button>
-                                            </a>
+                                                <a href="{% url 'app:brisi_komentar' objava.id komentar.id %}">
+                                                    <button class="button is-warning is-rounded is-small">
+                                                        <span class="icon"> <i class="fa-solid fa-comment-slash"></i> </span>
+                                                        <span class="is-uppercase has-text-weight-bold">briši</span>
+                                                    </button>
+                                                </a>
                                             {% endif %}
-                                            </div>
-                                            </form>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- STUPAC ZA TIJELO KOMENTARA-->
-                                <div class="column">
-                                        {{ komentar.tijelo }}
-                                </div>
+                                <!-- sadržaj komentara-->
+                                
+                            </div>
+                            <div class="content">
+                                {{ komentar.tijelo }}
                             </div>
                         </div>
                     </article>
