@@ -2,12 +2,13 @@
 
 {% block content %}
 <div class="columns is-flex is-justify-content-center">
-    <div class="column is-8-tablet is-7-desktop is-7-mobile">
+    <div class="column is-8-desktop is-8-tablet is-10-mobile">
         <!-- blok za objavu -->
         <div class="block mt-3 mx-3">
             <div class="box my-2 p-4">
                 <article class="media">
                     <div class="media-left">
+                        <!-- avatar profila -->
                         <figure class="image is-64x64">
                             <a href='{% url 'app:profil' objava.stvorio.profil.id %}'>
                                 <img class="is-rounded" src="{{ objava.stvorio.profil.avatar.url }}" alt="Image">
@@ -16,13 +17,36 @@
                     </div>
                     <div class="media-content">
                         <div class="content">
-                            <p>
-                                <a href='{% url 'app:profil' objava.stvorio.profil.id %}'>
-                                    <span class="title is-size-4 has-text-bold">{{ objava.stvorio.profil.ime }}</span>
-                                    <span class="subtitle is-size-5 has-text-grey-light ml-2">@{{ objava.stvorio.username }}</span>
-                                </a>
-                                <span class="subtitle is-size-5 has-text-grey-light ml-2">{{ objava.vrijeme_stvaranja|timesince }}</span>
-                            </p>
+                            <div class="level is-vcentered">
+                                <!-- podaci o profilu -->
+                                <div class="level-left">
+                                    <a href='{% url 'app:profil' objava.stvorio.profil.id %}'>
+                                        <span class="title is-size-4 has-text-bold">{{ objava.stvorio.profil.ime }}</span>
+                                        <span class="subtitle is-size-5 has-text-grey-light ml-2">@{{ objava.stvorio.username }}</span>
+                                    </a>
+                                    <span class="subtitle is-size-5 has-text-grey-light ml-2">{{ objava.vrijeme_stvaranja|timesince }}</span>
+                                </div>
+
+                                <!-- briši objavu gumb -->
+                                {% if objava.stvorio == user %}
+                                    <div class="level-right">
+                                        <div class="buttons">
+                                            <a class="button is-warning is-rounded" href="{% url 'app:brisi_objavu' objava.id %}">
+                                                <span class="icon"> <i class="fa-solid fa-ban"></i> </span>
+                                                <span class="is-uppercase has-text-weight-bold">briši</span>
+                                            </a>
+                                        </div> 
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="content">
+                            <!-- popis sastojaka -->
+                            <div class="block is-flex is-justify-content-center">
+                                <p class="title is-size-3 mt-4">
+                                    {{ objava.naslov }}
+                                </p>
+                            </div>    
                             <p class="title is-size-5 has-text-bold">
                                 Sastojci:
                             </p>
@@ -31,6 +55,8 @@
                                     <li>{{ sastojak }}</li>
                                 {% endfor %}
                             </ul>
+
+                            <!-- popis uputa -->
                             <p class="title is-size-5 has-text-bold">
                                 Upute:
                             </p>
@@ -39,6 +65,8 @@
                                     <li>{{ uputa }}</li>
                                 {% endfor %}
                             </ol>
+
+                            <!-- napomene -->
                             {% if objava.napomene %}
                                 <p class="title is-size-5 has-text-bold">Napomene:</p>
                                 <p class="pl-4">{{ objava.napomene }}</p>
@@ -46,6 +74,8 @@
                         </div>
                     </div>
                 </article>
+
+                <!-- galerija slika -->
                 <div class="columns is-multiline is-flex is-justify-content-center p-3 mt-3">
                     {% for objava_slika in objava.objava_slike.all %}
                             <div class="column is-one-third-widescreen is-one-third-desktop is-half-tablet is-half-mobile">
@@ -61,22 +91,26 @@
                 </div>
 
                 <!-- broj srca i komentara -->
-                <nav class="level is-mobile">
+                <nav class="level">
                     <div class="level-left">
                         <form method="post">
                             {% csrf_token %}
                             <div class="buttons">
+                                <!-- dislajk gumb -->
                                 {% if user in objava.objava_srca.all  %}
                                     <button class="button is-small is-dark is-rounded" name="srce" value="nevoli">
                                         <span class="icon"> <i class="fa-solid fa-heart-crack"></i> </span>
                                         <span class="is-size-6"> {{ objava.srca.count }} </span>
                                     </button>
                                 {% else %}
+                                <!-- lajk gumb -->
                                     <button class="button is-small is-warning is-rounded" name="srce" value="voli">
                                         <span class="icon"> <i class="fa-solid fa-heart"></i> </span>
                                         <span class="is-size-6"> {{ objava.srca.count }} </span>
                                     </button>
                                 {% endif %}
+
+                                <!-- broj komentara -->
                                 <button class="button is-small is-white" disabled>
                                     <span class="icon"> <i class="fa-solid fa-comments"></i> </span>
                                     <span class="is-size-6"> {{ objava.komentari.count }} </span>
@@ -84,21 +118,11 @@
                             </div>
                         </form>  
                     </div>
-                    {% if objava.stvorio == user %}
-                        <div class="level-right">
-                            <div class="buttons">
-                                <a class="button is-warning is-rounded" href="{% url 'app:brisi_objavu' objava.id %}">
-                                    <span class="icon"> <i class="fa-solid fa-ban"></i> </span>
-                                    <span class="is-uppercase has-text-weight-bold">briši</span>
-                                </a>
-                            </div> 
-                        </div>
-                    {% endif %}
                 </nav>
             </div>
         </div>
 
-        <!-- blok za unos novog komentara -->
+        <!-- obrazac komentara -->
         <div class="block mt-3 mx-6">
             <div class="box my-2 py-1 px-3">
                 <div class="content p-3">
@@ -116,12 +140,13 @@
             </div>
         </div>
 
-        <!-- blok za ispis komentara -->
+        <!-- ispis komentara -->
         <div class="block mx-6">
             {% for komentar in objava.komentari.all %}
                 <div class="box my-2 p-3">
                     <article class="media">
                         <div class="media-left">
+                            <!-- avatar profila -->
                             <figure class="image is-48x48">
                                 <a href='{% url 'app:profil' objava.stvorio.profil.id %}'>
                                     <img class="is-rounded" src="{{ objava.stvorio.profil.avatar.url }}" alt="Image">
@@ -141,24 +166,21 @@
 
                                     </div>
 
-                                    <!-- gumb izbriši komentar -->
-                                    <div class="level-right">
-                                        <div class="buttons is-justify-content-end">
-                                            {% if komentar.stvorio == user %}
-                                                <a href="{% url 'app:brisi_komentar' objava.id komentar.id %}">
-                                                    <button class="button is-warning is-rounded is-small">
-                                                        <span class="icon"> <i class="fa-solid fa-comment-slash"></i> </span>
-                                                        <span class="is-uppercase has-text-weight-bold">briši</span>
-                                                    </button>
-                                                </a>
-                                            {% endif %}
+                                    <!-- briši komentar gumb -->
+                                    {% if komentar.stvorio == user %}
+                                        <div class="level-right">
+                                            <a href="{% url 'app:brisi_komentar' objava.id komentar.id %}">
+                                                <button class="button is-warning is-rounded is-small">
+                                                    <span class="icon"> <i class="fa-solid fa-comment-slash"></i> </span>
+                                                    <span class="is-uppercase has-text-weight-bold">briši</span>
+                                                </button>
+                                            </a>
                                         </div>
-                                    </div>
+                                    {% endif %}
                                 </div>
-
-                                <!-- sadržaj komentara-->
-                                
                             </div>
+
+                            <!-- sadržaj komentara-->
                             <div class="content">
                                 {{ komentar.tijelo }}
                             </div>

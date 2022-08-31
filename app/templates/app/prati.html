@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="columns is-flex is-justify-content-center">
-    <div class="column is-8-tablet is-7-mobile is-7-desktop">
+    <div class="column is-6-desktop is-6-tablet is-8-mobile">
         <div class="block is-flex is-justify-content-center">
             <span class="title is-3">
                 <a href="{% url 'app:profil' profil.id %}"> {{ profil.korisnik.username }} </a>
@@ -14,7 +14,7 @@
 
         <!-- ispisivanje profila koje korisnik prati -->
         {% for profil in profil.prati.all %}
-        <div class="block">
+        <div class="block my-2">
             <div class="box">
                 <article class="media">
                     <div class="media-left">

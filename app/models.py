@@ -118,6 +118,9 @@ class Objava(models.Model):
 
     def upute_as_list(self):
         return self.upute.split('\n')
+    
+    def prva_slika(self):
+        return self.objava_slike.first()  
 
 class Slika(models.Model):
     objava = models.ForeignKey(Objava, related_name='objava_slike', on_delete=models.CASCADE)

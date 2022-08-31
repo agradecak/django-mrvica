@@ -4,102 +4,113 @@
 
 {% block content %}
 
+<section class="hero is-small mt-4 mb-6">
+        <div class="hero-body has-text-centered">
+            <h1 class="title is-1">
+                <span class="icon"> <i class="fa-solid fa-bread-slice"></i> </span>
+                <span class="ml-4">Mrvica</span>
+            </h1>
+            <p class="subtitle is-4">Društvena mreža za pekare i entuzijaste.</p>
+        </div>
+</section>
 
-<!-- PROFILI -->
-{% if profili%}
-<div class="block is-flex is-justify-content-center pb-4">
-    <div class="columns is-vcentered">
-        {% for profil in profili %}
-            <a href="{% url 'app:profil' profil.id %}">
-                <div class="column p-4 has-text-centered">
-                    <figure class="image is-64x64" style="margin: auto;">
-                        <img class="is-rounded" src="{{ profil.avatar.url }}" alt="Image">
-                    </figure>
-                    <span class="subtitle is-6">@{{ profil.korisnik.username }}</span>
+<div class="columns is-flex is-justify-content-center">
+    <div class="column is-8-desktop is-8-tablet is-10-mobile">
+
+        <!-- ispis profila -->
+        {% if profili%}
+            <div class="block is-flex is-justify-content-center pb-0">
+                <span class="title is-4">Profili:</span>
+            </div>
+            <div class="block is-flex is-justify-content-center pb-4">
+                <div class="columns is-vcentered">
+                    {% for profil in profili %}
+                        <a href="{% url 'app:profil' profil.id %}">
+                            <div class="column px-4 has-text-centered">
+                                <figure class="image is-64x64" style="margin: auto;">
+                                    <img class="is-rounded" src="{{ profil.avatar.url }}" alt="Image">
+                                </figure>
+                                <span class="subtitle is-6">@{{ profil.korisnik.username }}</span>
+                            </div>
+                        </a>
+                    {% endfor %}
+                    <div class="column">
+                        <a class="button is-warning is-rounded" href="/profili/">
+                            <span class="icon"> <i class="fa-solid fa-user"></i> </span>
+                            <span class="is-uppercase has-text-weight-bold">svi</strong>
+                        </a>
+                    </div>        
                 </div>
-            </a>
-        {% endfor %}
-        <div class="column">
-            <a class="button is-warning is-rounded" href="/profili/">
-                <span class="icon"> <i class="fa-solid fa-user"></i> </span>
-                <span class="is-uppercase has-text-weight-bold">svi</strong>
-            </a>
-        </div>        
+            </div>
+        {% endif %}
     </div>
 </div>
-{% endif %}
 
-<div class="block is-flex is-justify-content-center">
-    <a class="button is-warning is-rounded" href="{% url 'app:nova_objava' %}" class="button is-info is-medium mt-1">
-        <span class="icon">
-            <i class="fa-solid fa-file-circle-plus"></i>
-        </span>
-        <span class="is-uppercase has-text-weight-bold">objavi novi recept</span>
-    </a>
-</div>
+<div class="columns is-flex is-justify-content-center">
+    <div class="column is-6-desktop is-8-tablet is-10-mobile mt-0">
 
-<!-- OBJAVE -->
-<!-- <div class="columns is-flex is-justify-content-center is-vcentered">
-    <div class="column"> -->
-{% for praceni_profil in user.profil.prati.all %}
-    {% for objava in praceni_profil.korisnik.objave.all %}
-        <div class="block is-flex is-justify-content-center is-vcentered">
-            <div class="box">
-                    <article class="media">
-                        <div class="media-left">
-                            <figure class="image is-48x48">
-                                <img class="is-rounded" src="{{ praceni_profil.avatar.url }}" alt="Image">
-                            </figure>
-                        </div>
-                        <div class="media-content">
-                            <div class="content">
-                            <p>
-                                <span class="title is-size-5 has-text-bold"> {{ objava.stvorio.profil.ime }} </span>
-                                <span class="subtitle is-size-6 has-text-grey-light ml-2"> @{{ objava.stvorio.username }} </span>
-                                <span class="subtitle is-size-6 has-text-grey-light ml-2"> {{ objava.vrijeme_stvaranja|timesince }}</span>
-                            </div>
-                        </div>
-                    </article>
-                    <div class="content">
-                        <p>
-                            <a class="has-text-black" href="{% url 'app:objava' objava.id %}">
-                                <span class="title is-size-5 has-text-bold"> {{ objava.naslov }} </span>
-                            </a>
-                        </p>
-                        <ul>
-                            {% for sastojak in objava.sastojci_as_list %}
-                                    <li>{{ sastojak }}</li>
-                            {% endfor %}
-                        </ul>
-                        <ol>
-                            {% for uputa in objava.upute_as_list %}
-                                    <li>{{ uputa }}</li>
-                            {% endfor %}
-                        </ol>
-                        <p>
-                            {{ objava.napomene }}
-                        </p>
-                    </div>
-
-                        
-                        <!-- BROJEVI LAJKOVA I KOMENTARA -->
-                <nav class="level is-mobile mt-3">
-                    <div class="level-left">
-                        <div class="buttons">
-                            <button class="button is-small is-white" disabled>
-                                <span class="icon"> <i class="fa-solid fa-heart"></i> </span>
-                                <span class="is-size-6"> {{ objava.srca.count }} </span>
-                            </button>
-                            <button class="button is-small is-white" disabled>
-                                <span class="icon"> <i class="fa-solid fa-comments"></i> </span>
-                                <span class="is-size-6"> {{ objava.komentari.count }} </span>
-                            </button>
-                        </div>
-                    </div>
-                </nav> 
-            </div>
+        <!-- tekst "Objave" -->
+        <div class="block is-flex is-justify-content-center mt-4 mb-4">
+            <span class="title is-4">Objave:</span>
         </div>
-    {% endfor %}
-{% endfor %}
+
+        <!-- nova objava gumb-->
+        <div class="block is-flex is-justify-content-center mt-2 mb-4">
+            <a class="button is-warning is-rounded" href="{% url 'app:nova_objava' %}" class="button is-info is-medium mt-1">
+                <span class="icon">
+                    <i class="fa-solid fa-file-circle-plus"></i>
+                </span>
+                <span class="is-uppercase has-text-weight-bold">objavi novi recept</span>
+            </a>
+        </div>
+
+        <!-- ispis svih objava -->
+        {% for praceni_profil in user.profil.prati.all %}
+            {% for objava in praceni_profil.korisnik.objave.all %}
+                <div class="block my-2">
+                    <div class="box pb-2">
+                        <article class="media">
+                            <div class="media-left">
+                                <a href="{% url 'app:objava' objava.id %}">
+                                    <img class="image is-96x96" src="{{ objava.prva_slika.slika.url }}" alt="Image">
+                                </a>
+                            </div>
+                            <div class="media-content">
+                                <!-- podaci objave -->
+                                <div class="content">
+                                    <a href="{% url 'app:profil' praceni_profil.id %}">
+                                        <span class="title is-size-5 has-text-bold"> {{ objava.stvorio.profil.ime }}</span>
+                                        <span class="subtitle is-size-6 has-text-grey-light ml-2"> @{{ objava.stvorio.username }}</span>
+                                    </a>
+                                    <span class="subtitle is-size-6 has-text-grey-light ml-2"> {{ objava.vrijeme_stvaranja|timesince }}</span>
+                                </div>
+                                <div class="content">
+                                    <a href="{% url 'app:objava' objava.id %}">
+                                        <span class="title is-size-4 has-text-bold"> {{ objava.naslov }} </span>
+                                    </a>
+                                </div>
+                                <!-- broj srca i komentara -->
+                                <nav class="level is-mobile">
+                                    <div class="level-left">
+                                        <div class="buttons">
+                                            <button class="button is-small is-white" disabled>
+                                                <span class="icon"> <i class="fa-solid fa-heart"></i> </span>
+                                                <span class="is-size-6"> {{ objava.srca.count }} </span>
+                                            </button>
+                                            <button class="button is-small is-white" disabled>
+                                                <span class="icon"> <i class="fa-solid fa-comments"></i> </span>
+                                                <span class="is-size-6"> {{ objava.komentari.count }} </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}

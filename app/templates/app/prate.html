@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="columns is-flex is-justify-content-center">
-    <div class="column is-8-tablet is-7-mobile is-7-desktop">
+    <div class="column is-6-desktop is-6-tablet is-8-mobile">
         <div class="block is-flex is-justify-content-center">
             <span class="title is-3">
                 {{ profil.pracen_od.all.count }}
@@ -14,7 +14,7 @@
 
         <!-- ispisivanje profila koji prate korisnika -->
         {% for profil in profil.pracen_od.all %}
-        <div class="block">
+        <div class="block my-2">
             <div class="box">
                 <article class="media">
                     <div class="media-left">
