@@ -95,7 +95,7 @@
 
         <!-- popis profila koji prate korisnika-->
         {% if profil.pracen_od.all %}
-            <div class="block is-flex is-justify-content-center pt-0 px-2">
+            <div class="block is-flex is-justify-content-center py-0 px-2">
                 <div class="columns is-vcentered">
                     {% for prate_profil in profil.pracen_od.all|slice:':5' %}
                         <a href="{% url 'app:profil' prate_profil.id %}">
@@ -116,8 +116,13 @@
                 </div>
             </div>
         {% endif %}
+    </div>
+</div>
 
-        {% if profil.korisnik.objave.all %}
+<div class="columns is-flex is-justify-content-center pt-0">
+    <div class="column is-6-desktop is-8-tablet is-10-mobile mt-0">
+
+        {% if profil == user.profil or profil.korisnik.objave.all  %}
             <div class="block is-flex is-justify-content-center mt-6 mb-4">
                 <span class="title is-4">Objave:</span>
             </div>
