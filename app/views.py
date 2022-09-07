@@ -45,11 +45,7 @@ def nova_objava(request):
 			objava.save()
 			for file in files:
 				Slika.objects.create(objava=objava, slika=file)
-			messages.success(request, "Objava uspješno stvorena.")
-			return redirect('app:profil', pk=request.user.profil.id)
-		
-		else:
-			messages.error(request, "Objava nije valjana.")
+			return redirect('app:objava', pk=objava.id)
 	else:
 		obrazac_objave = ObjavaForm()
 		obrazac_slika = SlikaForm()

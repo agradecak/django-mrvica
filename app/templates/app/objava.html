@@ -97,17 +97,24 @@
                             {% csrf_token %}
                             <div class="buttons">
                                 <!-- dislajk gumb -->
-                                {% if user in objava.objava_srca.all  %}
-                                    <button class="button is-small is-dark is-rounded" name="srce" value="nevoli">
-                                        <span class="icon"> <i class="fa-solid fa-heart-crack"></i> </span>
-                                        <span class="is-size-6"> {{ objava.srca.count }} </span>
-                                    </button>
-                                {% else %}
-                                <!-- lajk gumb -->
-                                    <button class="button is-small is-warning is-rounded" name="srce" value="voli">
+                                {% if  objava.stvorio == user %}
+                                    <button class="button is-small is-white" disabled>
                                         <span class="icon"> <i class="fa-solid fa-heart"></i> </span>
                                         <span class="is-size-6"> {{ objava.srca.count }} </span>
                                     </button>
+                                {% else %}
+                                    {% if user in objava.objava_srca.all %}
+                                        <button class="button is-small is-dark is-rounded" name="srce" value="nevoli">
+                                            <span class="icon"> <i class="fa-solid fa-heart-crack"></i> </span>
+                                            <span class="is-size-6"> {{ objava.srca.count }} </span>
+                                        </button>
+                                    {% else %}
+                                    <!-- lajk gumb -->
+                                        <button class="button is-small is-warning is-rounded" name="srce" value="voli">
+                                            <span class="icon"> <i class="fa-solid fa-heart"></i> </span>
+                                            <span class="is-size-6"> {{ objava.srca.count }} </span>
+                                        </button>
+                                    {% endif %}
                                 {% endif %}
 
                                 <!-- broj komentara -->

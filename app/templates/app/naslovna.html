@@ -79,7 +79,7 @@
                                 <!-- podaci objave -->
                                 <div class="content">
                                     <a href="{% url 'app:profil' praceni_profil.id %}">
-                                        <span class="title is-size-5 has-text-bold"> {{ objava.stvorio.profil.ime }}</span>
+                                        <span class="subtitle is-size-5 has-text-bold"> {{ objava.stvorio.profil.ime }}</span>
                                         <span class="subtitle is-size-6 has-text-grey-light ml-2"> @{{ objava.stvorio.username }}</span>
                                     </a>
                                     <span class="subtitle is-size-6 has-text-grey-light ml-2"> {{ objava.vrijeme_stvaranja|timesince }}</span>
