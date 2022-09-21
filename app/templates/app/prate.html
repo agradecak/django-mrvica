@@ -1,3 +1,5 @@
+<!--/app/prate.html-->
+
 {% extends 'base_logged_in.html' %}
 
 {% block content %}
@@ -5,6 +7,7 @@
 <div class="columns is-flex is-justify-content-center">
     <div class="column is-6-desktop is-6-tablet is-8-mobile">
         <div class="block is-flex is-justify-content-center">
+            <!-- Broj profila koji prate korisnika-->
             <span class="title is-3">
                 {{ profil.pracen_od.all.count }}
                 {% if profil.pracen_od.all.count == 1%} profil prati{% else %} profila prate{% endif %}
@@ -12,12 +15,13 @@
             </span>
         </div>
 
-        <!-- ispisivanje profila koji prate korisnika -->
+        <!-- Ispis svih profila koji prate korisnika -->
         {% for profil in profil.pracen_od.all %}
         <div class="block my-2">
             <div class="box">
                 <article class="media">
                     <div class="media-left">
+                        <!-- Avatar profila -->
                         <figure class="image is-64x64">
                             <a href='{% url 'app:profil' profil.id %}'>
                                 <img class="is-rounded" src="{{ profil.avatar.url }}" alt="Image">
@@ -25,6 +29,7 @@
                         </figure>
                     </div>
                     <div class="media-content">
+                        <!-- Podaci profila -->
                         <div class="content">
                         <p>
                             <a href='{% url 'app:profil' profil.id %}'>

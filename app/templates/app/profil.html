@@ -1,3 +1,5 @@
+<!--/app/profil.html-->
+
 {% extends 'base_logged_in.html' %}
 
 {% block content %}
@@ -12,18 +14,20 @@
     </section>
 {% endif %}
 
-<!-- informacije o profilu -->
+<!-- Informacije o profilu -->
 <div class="columns is-flex is-justify-content-center">
     <div class="column is-8-desktop is-7-tablet is-7-mobile ">
         <div class="block">
             <div class="box">
                 <article class="media">
                     <div class="media-left">
+                        <!-- Avatar profila-->
                         <figure class="image is-64x64">
                             <img class="is-rounded" src="{{ profil.avatar.url }}" alt="Image">
                         </figure>
                     </div>
                     <div class="media-content">
+                        <!-- Podaci profila -->
                         <div class="content">
                             <p>
                                 <span class="title is-4 is-bold">{{ profil.ime }}</span>
@@ -43,19 +47,24 @@
                             </p>
                         </div>
                     </div>
+
+                    <!-- Gumbi profila -->
                     <div class="media-right">
                         <form method="post">
                             {% csrf_token %}
                             {% if profil != user.profil %}
+                                <!-- Gumb za prestanak praćenja-->
                                 {% if profil in user.profil.prati.all %}
                                     <button class="button is-rounded is-dark" name="pracenje" value="neprati">
                                         <span class="icon"> <i class="fa-solid fa-user-minus"></i> </span>
                                     </button>
+                                <!--Gumb za praćenje-->
                                 {% else %}
                                     <button class="button is-rounded is-warning" name="pracenje" value="prati">
                                         <span class="icon"> <i class="fa-solid fa-user-plus"></i> </span>
                                     </button>
                                 {% endif %}
+                            <!-- Gumb za uređivanje profila-->
                             {% else %}
                                 <a class="button is-warning is-rounded" href="{% url 'app:uredi_profil' %}">
                                     <span class="icon"> <i class="fa-solid fa-pencil"></i> </span>
@@ -69,7 +78,7 @@
         </div>     
 
 
-        <!-- popis profila koje korisnik prati -->
+        <!-- Ispis profila koje korisnik prati -->
         {% if profil.prati.all %}
             <div class="block is-flex is-justify-content-center mt-4 px-2">
                 <div class="columns is-vcentered">
@@ -83,6 +92,8 @@
                             </div>
                         </a>
                     {% endfor %}
+
+                    <!-- Link na ostale profile -->
                     <div class="column">
                         <a class="button is-warning is-rounded" href="{% url 'app:prati' profil.id %}">
                             <span class="icon"> <i class="fa-solid fa-user"></i> </span>
@@ -93,7 +104,7 @@
             </div>
         {% endif %}
 
-        <!-- popis profila koji prate korisnika-->
+        <!-- Ispis profila koji prate korisnika-->
         {% if profil.pracen_od.all %}
             <div class="block is-flex is-justify-content-center py-0 px-2">
                 <div class="columns is-vcentered">
@@ -107,6 +118,8 @@
                             </div>
                         </a>
                     {% endfor %}
+
+                    <!-- Link na ostale profile -->
                     <div class="column">
                         <a class="button is-warning is-rounded" href="{% url 'app:prate' profil.id %}">
                             <span class="icon"> <i class="fa-solid fa-user"></i> </span>
@@ -119,6 +132,7 @@
     </div>
 </div>
 
+<!-- Objave profila -->
 <div class="columns is-flex is-justify-content-center pt-0">
     <div class="column is-6-desktop is-8-tablet is-10-mobile mt-0">
 
@@ -128,9 +142,8 @@
             </div>
         {% endif %}
 
-        <!-- naslov objave -->
+        <!-- Gumb za novu objavu -->
         {% if profil == user.profil %}
-        <!-- nova objava gumb -->
         <div class="block is-flex is-justify-content-center mt-2 mb-4">
             <a class="button is-warning is-rounded" href="{% url 'app:nova_objava' %}" class="button is-info is-medium mt-1">
                 <span class="icon">
@@ -141,17 +154,19 @@
         </div>
         {% endif %}
 
-        <!-- popis objava -->
+        <!-- Ispis objava -->
         {% for objava in profil.korisnik.objave.all %}
             <div class="block my-2">
                 <div class="box pb-2">
                     <article class="media">
                             <div class="media-left">
+                                <!-- Thumbnail sličica objave -->
                                 <a href="{% url 'app:objava' objava.id %}">
                                     <img class="image is-96x96" src="{{ objava.prva_slika.slika.url }}" alt="Image">
                                 </a>
                             </div>
                             <div class="media-content">
+                                <!-- Podaci objave -->
                                 <div class="content">
                                     <span class="subtitle is-size-5 has-text-bold">{{ objava.stvorio.profil.ime }}</span>
                                     <span class="subtitle is-size-6 has-text-grey-light ml-2">@{{ objava.stvorio.username }}</span>
@@ -162,7 +177,8 @@
                                         <span class="title is-size-4 has-text-bold"> {{ objava.naslov }} </span>
                                     </a>
                                 </div>
-                                <!-- broj srca i komentara -->
+
+                                <!-- Broj srca i komentara -->
                                 <nav class="level is-mobile">
                                     <div class="level-left">
                                         <div class="buttons">

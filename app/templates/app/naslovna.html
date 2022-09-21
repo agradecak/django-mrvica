@@ -4,6 +4,7 @@
 
 {% block content %}
 
+<!-- Slika i naziv mreže -->
 <section class="hero is-small mt-4 mb-6">
         <div class="hero-body has-text-centered">
             <h1 class="title is-1">
@@ -17,7 +18,7 @@
 <div class="columns is-flex is-justify-content-center">
     <div class="column is-8-desktop is-8-tablet is-10-mobile">
 
-        <!-- ispis profila -->
+        <!-- Ispis profila -->
         {% if profili%}
             <div class="block is-flex is-justify-content-center pb-0">
                 <span class="title is-4">Profili:</span>
@@ -49,12 +50,12 @@
 <div class="columns is-flex is-justify-content-center">
     <div class="column is-6-desktop is-8-tablet is-10-mobile mt-0">
 
-        <!-- tekst "Objave" -->
+        <!-- tekst "Objave:" -->
         <div class="block is-flex is-justify-content-center mt-4 mb-4">
             <span class="title is-4">Objave:</span>
         </div>
 
-        <!-- nova objava gumb-->
+        <!-- Gumb za novu objavu -->
         <div class="block is-flex is-justify-content-center mt-2 mb-4">
             <a class="button is-warning is-rounded" href="{% url 'app:nova_objava' %}" class="button is-info is-medium mt-1">
                 <span class="icon">
@@ -64,7 +65,7 @@
             </a>
         </div>
 
-        <!-- ispis svih objava -->
+        <!-- Ispis svih objava -->
         {% for praceni_profil in user.profil.prati.all %}
             {% for objava in praceni_profil.korisnik.objave.all %}
                 <div class="block my-2">
@@ -76,7 +77,7 @@
                                 </a>
                             </div>
                             <div class="media-content">
-                                <!-- podaci objave -->
+                                <!-- Podaci objave -->
                                 <div class="content">
                                     <a href="{% url 'app:profil' praceni_profil.id %}">
                                         <span class="subtitle is-size-5 has-text-bold"> {{ objava.stvorio.profil.ime }}</span>
@@ -89,7 +90,7 @@
                                         <span class="title is-size-4 has-text-bold"> {{ objava.naslov }} </span>
                                     </a>
                                 </div>
-                                <!-- broj srca i komentara -->
+                                <!-- Broj srca i komentara -->
                                 <nav class="level is-mobile">
                                     <div class="level-left">
                                         <div class="buttons">

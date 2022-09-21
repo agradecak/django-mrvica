@@ -1,3 +1,5 @@
+<!--/app/prati.html-->
+
 {% extends 'base_logged_in.html' %}
 
 {% block content %}
@@ -5,6 +7,7 @@
 <div class="columns is-flex is-justify-content-center">
     <div class="column is-6-desktop is-6-tablet is-8-mobile">
         <div class="block is-flex is-justify-content-center">
+            <!-- Broj profila koje korisnik prati -->
             <span class="title is-3">
                 <a href="{% url 'app:profil' profil.id %}"> {{ profil.korisnik.username }} </a>
                 prati {{ profil.prati.all.count }}
@@ -12,12 +15,13 @@
             </span>
         </div>
 
-        <!-- ispisivanje profila koje korisnik prati -->
+        <!-- Ispis profila koje korisnik prati -->
         {% for profil in profil.prati.all %}
         <div class="block my-2">
             <div class="box">
                 <article class="media">
                     <div class="media-left">
+                        <!-- Avatar profila-->
                         <figure class="image is-64x64">
                             <a href='{% url 'app:profil' profil.id %}'>
                                 <img class="is-rounded" src="{{ profil.avatar.url }}" alt="Image">
@@ -25,6 +29,7 @@
                         </figure>
                     </div>
                     <div class="media-content">
+                        <!-- Podaci profila -->
                         <div class="content">
                         <p>
                             <a href='{% url 'app:profil' profil.id %}'>
